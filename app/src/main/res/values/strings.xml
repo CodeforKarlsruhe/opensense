@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Open Sense</string>
+
+
+    <!-- Widget configuration -->
+    <string name="widget_configuration_title">Configure senseBox</string>
+    <string name="widget_box_id">senseBox Id</string>
+    <string name="widget_add">Add widget</string>
 </resources>
