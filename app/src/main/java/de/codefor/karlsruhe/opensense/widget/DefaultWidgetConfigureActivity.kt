@@ -40,8 +40,8 @@ class DefaultWidgetConfigureActivity : Activity() {
         setResult(Activity.RESULT_CANCELED)
 
         setContentView(R.layout.default_widget_configure)
-        boxIdEditText = findViewById<View>(R.id.default_widget_box_id) as EditText
-        findViewById<View>(R.id.default_widget_add_button).setOnClickListener(addWidgetOnClickListener)
+        boxIdEditText = findViewById<View>(R.id.default_widget_configure_box_id) as EditText
+        findViewById<View>(R.id.default_widget_configure_add_button).setOnClickListener(addWidgetOnClickListener)
 
         // Find the widget id from the intent.
         val intent = intent

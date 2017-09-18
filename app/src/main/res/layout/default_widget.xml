@@ -4,4 +4,13 @@
     android:background="@color/colorPrimary"
     android:padding="@dimen/widget_margin">
 
+    <TextView
+        android:id="@+id/default_widget_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        android:layout_margin="8dp" />
+
 </LinearLayout>

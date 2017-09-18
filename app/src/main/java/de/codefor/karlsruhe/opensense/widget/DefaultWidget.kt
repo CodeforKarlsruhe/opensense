@@ -5,6 +5,9 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.widget.RemoteViews
 import de.codefor.karlsruhe.opensense.R
+import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Implementation of default widget containing a maximum of five sensor data.
@@ -35,14 +38,17 @@ class DefaultWidget : AppWidgetProvider() {
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
                                      appWidgetId: Int) {
+            val boxId = DefaultWidgetConfigureActivity.loadBoxId(context, appWidgetId)
+            if (boxId.isEmpty()) return
 
-            val widgetText = DefaultWidgetConfigureActivity.loadBoxId(context, appWidgetId)
-            // Construct the RemoteViews object
-            val views = RemoteViews(context.packageName, R.layout.default_widget)
-            views.setTextViewText(R.id.default_widget_box_id, widgetText)
-
-            // Instruct the widget manager to update the widget
-            appWidgetManager.updateAppWidget(appWidgetId, views)
+            OpenSenseMapService.getBox(boxId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ result ->
+                        val views = RemoteViews(context.packageName, R.layout.default_widget)
+                        views.setTextViewText(R.id.default_widget_text, result.name)
+                        appWidgetManager.updateAppWidget(appWidgetId, views)
+                    })
         }
     }
 }
