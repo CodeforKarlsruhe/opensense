@@ -16,7 +16,7 @@
         android:id="@+id/default_widget_configure_box_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/widget_box_id"
+        android:hint="@string/widget_configuration_box_id"
         android:inputType="text" />
 
     <Button
@@ -25,6 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/widget_add" />
+        android:text="@string/widget_configuration_select" />
 
 </LinearLayout>

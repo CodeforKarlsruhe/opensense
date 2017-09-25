@@ -3,7 +3,7 @@
 
 
     <!-- Widget configuration -->
-    <string name="widget_configuration_title">Configure senseBox</string>
-    <string name="widget_box_id">senseBox Id</string>
-    <string name="widget_add">Add widget</string>
+    <string name="widget_configuration_title">Select senseBox</string>
+    <string name="widget_configuration_box_id">senseBox Id</string>
+    <string name="widget_configuration_select">Select</string>
 </resources>

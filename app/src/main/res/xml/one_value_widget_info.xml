@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="de.codefor.karlsruhe.opensense.widget.onevalue.OneValueConfigurationActivity"
+    android:initialKeyguardLayout="@layout/one_value_widget"
+    android:initialLayout="@layout/one_value_widget"
+    android:minHeight="40dp"
+    android:minWidth="40dp"
+    android:minResizeWidth="40dp"
+    android:minResizeHeight="40dp"
+    android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/default_widget_example"
+    android:updatePeriodMillis="3600000"
+    android:widgetCategory="home_screen|keyguard" />
