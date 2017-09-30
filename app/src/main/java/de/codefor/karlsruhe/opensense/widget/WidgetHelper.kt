@@ -37,6 +37,11 @@ object WidgetHelper {
         return prefs.getString(PREF_BOX_ID + appWidgetId, "")
     }
 
+    internal fun loadSensorIds(context: Context, appWidgetId: Int): List<String> {
+        val prefs = context.getSharedPreferences(PREFS_NAME, 0)
+        return prefs.getStringSet(PREF_SENSOR_IDS + appWidgetId, emptySet()).toList()
+    }
+
     internal fun getSenseBox(context: Context, appWidgetId: Int): Single<SenseBox> {
         val boxId = loadBoxId(context, appWidgetId)
         return getSenseBox(boxId)
@@ -48,5 +53,9 @@ object WidgetHelper {
         return OpenSenseMapService.getBox(boxId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    internal fun formatSensorData(value: String?, unit: String?): String {
+        return "$value $unit"
     }
 }
