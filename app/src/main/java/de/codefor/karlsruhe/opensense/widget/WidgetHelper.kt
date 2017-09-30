@@ -3,6 +3,7 @@ package de.codefor.karlsruhe.opensense.widget
 import android.content.Context
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
+import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -12,7 +13,10 @@ object WidgetHelper {
     private val PREF_BOX_ID = "box_id_"
     private val PREF_SENSOR_IDS = "sensor_ids_"
 
-    internal fun saveConfiguration(context: Context, appWidgetId: Int, boxId: String, sensorIds: List<String>) {
+    internal fun saveConfiguration(context: Context, appWidgetId: Int, boxId: String, sensors: List<Sensor>) {
+        val sensorIds = mutableListOf<String>()
+        sensors.forEach { it.id?.let { it1 -> sensorIds.add(it1) } }
+
         context.getSharedPreferences(PREFS_NAME, 0)
                 .edit()
                 .putString(PREF_BOX_ID + appWidgetId, boxId)
