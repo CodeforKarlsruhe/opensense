@@ -3,7 +3,6 @@ package de.codefor.karlsruhe.opensense.widget
 import android.content.Context
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
-import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -36,16 +35,13 @@ object WidgetHelper {
 
     internal fun getSenseBox(context: Context, appWidgetId: Int): Single<SenseBox> {
         val boxId = loadBoxId(context, appWidgetId)
+        return getSenseBox(boxId)
+    }
+
+    internal fun getSenseBox(boxId: String): Single<SenseBox> {
         if (boxId.isEmpty()) return Single.error { Exception() }
 
         return OpenSenseMapService.getBox(boxId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    internal fun getSensorList(boxId: String): Single<List<Sensor>> {
-        return OpenSenseMapService.getBox(boxId)
-                .map { result -> result.sensors ?: emptyList() }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
