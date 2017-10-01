@@ -1,9 +1,18 @@
 # Open Sense
-A simple app for the great [openSenseMap](https://opensensemap.org) project.
+A app for the great [openSenseMap](https://opensensemap.org) project.
 It's still work in progress and in an early stage of development. 
 
 ## Features
-- A widget for Android to show the sensor values of one particular senseBox.
+- A widget for Android to show one sensor value of a particular senseBox.
+
+![One Value Widget](/docs/one_value_widget.png)
+
+## TODO
+- A complete Android app to view all senseBox data provided by openSenseMap
+- More widgets, e.g. multiple sensors in one widget
+- Better design for the configuration and widgets
+- Improved error handling for the configuration
+- ...
 
 
 ##License
