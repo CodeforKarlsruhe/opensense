@@ -1,15 +1,45 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_dark"
+    android:background="@color/colorWidgetBackground"
     android:padding="@dimen/widget_margin">
+
+    <ImageView
+        android:id="@+id/one_value_widget_icon"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/one_value_image_description"
+        android:src="@drawable/ic_cloud" />
 
     <TextView
         android:id="@+id/one_value_widget_text"
         android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/one_value_widget_icon"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/colorWidgetText"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="1234.56 μW/cm²"
+        tools:width="40dp" />
+
+    <TextView
+        android:id="@+id/one_value_widget_box"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
-</FrameLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/colorWidgetText"
+        android:textSize="10sp"
+        tools:text="Yet another senseBox"
+        tools:width="40dp" />
+</RelativeLayout>

@@ -7,7 +7,7 @@
     android:minWidth="40dp"
     android:minResizeWidth="40dp"
     android:minResizeHeight="40dp"
-    android:resizeMode="horizontal|vertical"
-    android:previewImage="@drawable/default_widget_example"
+    android:resizeMode="horizontal"
+    android:previewImage="@drawable/one_value_widget_example"
     android:updatePeriodMillis="3600000"
     android:widgetCategory="home_screen|keyguard" />

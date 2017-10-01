@@ -7,7 +7,7 @@ import de.codefor.karlsruhe.opensense.widget.WidgetHelper
 
 /**
  * Implementation of default widget containing a maximum of five sensor data.
- * The configuration is implemented in [BaseWidgetConfigurationActivity].
+ * The configuration is implemented in [BaseWidgetConfigurationActivity] and its child classes.
  */
 abstract class BaseWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {

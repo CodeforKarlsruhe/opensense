@@ -101,7 +101,7 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
         val adapter = boxSensorsRecyclerView.adapter
         if (adapter != null && adapter is SensorListAdapter) {
             // TODO: Show snackbar when to much items are selected
-            if (adapter.getSelectedItems().size <= maxSensorItems) {
+            if (adapter.getSelectedItems().isNotEmpty() && adapter.getSelectedItems().size <= maxSensorItems) {
                 WidgetHelper.saveConfiguration(this, widgetId, boxId, adapter.getSelectedItems())
                 update(widgetId)
                 closeConfigurationActivity()

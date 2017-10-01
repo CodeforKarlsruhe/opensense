@@ -8,4 +8,7 @@
     <string name="widget_configuration_select">Select</string>
     <string name="widget_configuration_current_value">%1$s %2$s</string>
     <string name="widget_configuration_save">Save</string>
+
+    <!-- One Value Widget -->
+    <string name="one_value_image_description">Cloud symbol</string>
 </resources>

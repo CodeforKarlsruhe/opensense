@@ -21,6 +21,7 @@ class OneValueWidget : BaseWidget() {
 
                 val text = WidgetHelper.formatSensorData(sensor?.lastMeasurement?.value, sensor?.unit)
                 val views = RemoteViews(context.packageName, R.layout.one_value_widget)
+                views.setTextViewText(R.id.one_value_widget_box, senseBox.name)
                 views.setTextViewText(R.id.one_value_widget_text, text)
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }, {
