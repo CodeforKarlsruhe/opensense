@@ -38,9 +38,11 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private lateinit var boxSensorsRecyclerView: RecyclerView
 
     private var addWidgetOnClickListener: View.OnClickListener = View.OnClickListener {
-        // TODO: Better error handling
         WidgetHelper.getSenseBox(boxIdEditText.text.toString())
-                .subscribe(this::showBoxInformation) { finish() }
+                .subscribe(this::showBoxInformation) {
+                    Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
+                            .show()
+                }
     }
 
     public override fun onCreate(icicle: Bundle?) {
@@ -89,8 +91,8 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
     private fun showBoxInformation(senseBox: SenseBox) {
         if (senseBox.id == null || senseBox.sensors == null) {
-            // TODO: Better error handling
-            finish()
+            Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_invalid_data, Snackbar.LENGTH_SHORT)
+                    .show()
             return
         }
 

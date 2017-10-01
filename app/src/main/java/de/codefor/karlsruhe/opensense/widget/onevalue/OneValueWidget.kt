@@ -25,7 +25,9 @@ class OneValueWidget : BaseWidget() {
                 views.setTextViewText(R.id.one_value_widget_text, text)
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }, {
-                // TODO: Handle error
+                val views = RemoteViews(context.packageName, R.layout.one_value_widget)
+                views.setTextViewText(R.id.one_value_widget_text, context.getString(R.string.one_value_error_text))
+                appWidgetManager.updateAppWidget(appWidgetId, views)
             })
         }
     }
