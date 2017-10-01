@@ -4,6 +4,8 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -28,6 +30,7 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private var widgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private var boxId = ""
 
+    private lateinit var coordinatorLayout: CoordinatorLayout
     private lateinit var boxIdEditText: EditText
     private lateinit var boxInfoLayout: LinearLayout
     private lateinit var boxName: TextView
@@ -48,8 +51,9 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_base_widget_configuration)
 
         findViewById<View>(R.id.default_widget_configure_select).setOnClickListener(addWidgetOnClickListener)
-        boxIdEditText = findViewById<View>(R.id.default_widget_configure_id) as EditText
 
+        coordinatorLayout = findViewById<View>(R.id.coordinator_layout) as CoordinatorLayout
+        boxIdEditText = findViewById<View>(R.id.default_widget_configure_id) as EditText
         boxInfoLayout = findViewById<View>(R.id.default_widget_configure_box) as LinearLayout
         boxName = findViewById<View>(R.id.default_widget_configure_box_name) as TextView
         boxDescription = findViewById<View>(R.id.default_widget_configure_box_description) as TextView
@@ -100,11 +104,17 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private fun saveAndShowWidget() {
         val adapter = boxSensorsRecyclerView.adapter
         if (adapter != null && adapter is SensorListAdapter) {
-            // TODO: Show snackbar when to much items are selected
-            if (adapter.getSelectedItems().isNotEmpty() && adapter.getSelectedItems().size <= maxSensorItems) {
+            if (adapter.getSelectedItems().isEmpty()) {
+                Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_empty_list, Snackbar.LENGTH_SHORT)
+                        .show()
+            } else if (adapter.getSelectedItems().size <= maxSensorItems) {
                 WidgetHelper.saveConfiguration(this, widgetId, boxId, adapter.getSelectedItems())
                 update(widgetId)
                 closeConfigurationActivity()
+            } else {
+                val text = resources.getQuantityString(R.plurals.maximumNumberOfSensors, maxSensorItems, maxSensorItems)
+                Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT)
+                        .show()
             }
         }
     }
