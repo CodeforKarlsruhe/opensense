@@ -20,7 +20,7 @@ Any suggestions, feature requests, bug reports or pull requests are very much ap
 - ...
 
 
-##License
+## License
 Copyright (c) Open Knowledge Lab Karlsruhe
 All rights reserved.
 
