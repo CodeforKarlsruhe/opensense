@@ -1,11 +1,16 @@
 # Open Sense
-A app for the great [openSenseMap](https://opensensemap.org) project.
-It's still work in progress and in an early stage of development. 
+An app with widgets for the great [openSenseMap](https://opensensemap.org) project.
+It's still work in progress and in an early stage of development.
+The current version `0.1.0` is already available in the [Play Store](https://play.google.com/store/apps/details?id=de.codefor.karlsruhe.opensense)
 
 ## Features
 - A widget for Android to show one sensor value of a particular senseBox.
 
 ![One Value Widget](/docs/one_value_widget.png)
+
+## Development
+The app is work in progress and in an early development stage.
+Any suggestions, feature requests, bug reports or pull requests are very much appreciated.
 
 ## TODO
 - A complete Android app to view all senseBox data provided by openSenseMap
