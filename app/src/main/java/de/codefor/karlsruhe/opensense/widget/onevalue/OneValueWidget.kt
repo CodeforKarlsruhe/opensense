@@ -1,9 +1,7 @@
 package de.codefor.karlsruhe.opensense.widget.onevalue
 
-import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.content.Intent
 import android.widget.RemoteViews
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
@@ -29,10 +27,15 @@ class OneValueWidget : BaseWidget() {
                     setTextViewText(R.id.one_value_widget_box_name, senseBox.name)
                 }
 
-                val intent = Intent(context, OneValueConfigurationActivity::class.java)
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-                val pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0)
-                views.setOnClickPendingIntent(R.id.one_value_widget_configuration_button, pendingIntent)
+                views.setOnClickPendingIntent(
+                        R.id.one_value_widget_configuration_button,
+                        WidgetHelper.createConfigurationPendingIntent(context, appWidgetId, OneValueConfigurationActivity::class)
+                )
+
+                views.setOnClickPendingIntent(
+                        R.id.one_value_widget_configuration_button,
+                        WidgetHelper.createConfigurationPendingIntent(context, appWidgetId, OneValueConfigurationActivity::class)
+                )
 
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }, {

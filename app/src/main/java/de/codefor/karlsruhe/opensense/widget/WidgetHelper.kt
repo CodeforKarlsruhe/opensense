@@ -1,12 +1,17 @@
 package de.codefor.karlsruhe.opensense.widget
 
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.content.Intent
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
+import de.codefor.karlsruhe.opensense.widget.onevalue.OneValueConfigurationActivity
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlin.reflect.KClass
 
 object WidgetHelper {
     private val PREFS_NAME = "de.codefor.karlsruhe.opensense.widget"
@@ -57,5 +62,13 @@ object WidgetHelper {
 
     internal fun formatSensorData(value: String?, unit: String?): String {
         return "$value $unit"
+    }
+
+    internal fun createConfigurationPendingIntent(context: Context,
+                                                  appWidgetId: Int,
+                                                  configActivity: KClass<OneValueConfigurationActivity>): PendingIntent {
+        val intent = Intent(context, configActivity.java)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        return PendingIntent.getActivity(context, appWidgetId, intent, 0)
     }
 }
