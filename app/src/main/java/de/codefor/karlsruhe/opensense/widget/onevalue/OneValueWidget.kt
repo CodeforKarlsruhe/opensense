@@ -23,8 +23,11 @@ class OneValueWidget : BaseWidget() {
 
                 val text = WidgetHelper.formatSensorData(sensor?.lastMeasurement?.value, sensor?.unit)
                 val views = RemoteViews(context.packageName, R.layout.one_value_widget)
-                views.setTextViewText(R.id.one_value_widget_box, senseBox.name)
-                views.setTextViewText(R.id.one_value_widget_text, text)
+                views.apply {
+                    setTextViewText(R.id.one_value_widget_sensor_title, sensor?.title)
+                    setTextViewText(R.id.one_value_widget_sensor_data, text)
+                    setTextViewText(R.id.one_value_widget_box_name, senseBox.name)
+                }
 
                 val intent = Intent(context, OneValueConfigurationActivity::class.java)
                 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
@@ -33,8 +36,9 @@ class OneValueWidget : BaseWidget() {
 
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }, {
+                // TODO: Hide needless views or show different layout
                 val views = RemoteViews(context.packageName, R.layout.one_value_widget)
-                views.setTextViewText(R.id.one_value_widget_text, context.getString(R.string.one_value_error_text))
+                views.setTextViewText(R.id.one_value_widget_sensor_data, context.getString(R.string.one_value_error_text))
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             })
         }

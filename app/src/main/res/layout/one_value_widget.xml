@@ -3,33 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWidgetBackground"
-    android:padding="@dimen/widget_margin">
+    android:padding="@dimen/widget_margin"
+    tools:width="40dp">
 
     <ImageView
         android:id="@+id/one_value_widget_configuration_button"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
+        android:layout_height="14dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="4dp"
         android:contentDescription="@string/one_value_configuration_image_description"
         android:src="@drawable/ic_configuration" />
 
-    <ImageView
-        android:id="@+id/one_value_widget_icon"
+    <TextView
+        android:id="@+id/one_value_widget_sensor_title"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:contentDescription="@string/one_value_image_description"
-        android:src="@drawable/ic_cloud" />
+        android:layout_toEndOf="@id/one_value_widget_configuration_button"
+        android:layout_toStartOf="@id/one_value_widget_refresh_button"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textColor="@color/colorWidgetText"
+        android:textSize="10sp"
+        tools:text="UV-Intensität" />
+
+    <ImageView
+        android:id="@+id/one_value_widget_refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/one_value_refresh_image_description"
+        android:src="@drawable/ic_refresh" />
 
     <TextView
-        android:id="@+id/one_value_widget_text"
+        android:id="@+id/one_value_widget_sensor_data"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_below="@id/one_value_widget_icon"
+        android:layout_below="@id/one_value_widget_configuration_button"
         android:layout_centerInParent="true"
         android:layout_marginTop="4dp"
         android:ellipsize="end"
@@ -37,11 +52,10 @@
         android:textColor="@color/colorWidgetText"
         android:textSize="18sp"
         android:textStyle="bold"
-        tools:text="1234.56 μW/cm²"
-        tools:width="40dp" />
+        tools:text="1234.56 μW/cm²" />
 
     <TextView
-        android:id="@+id/one_value_widget_box"
+        android:id="@+id/one_value_widget_box_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -51,6 +65,5 @@
         android:singleLine="true"
         android:textColor="@color/colorWidgetText"
         android:textSize="10sp"
-        tools:text="Yet another senseBox"
-        tools:width="40dp" />
+        tools:text="OK Lab Karlsruhe 1" />
 </RelativeLayout>
