@@ -8,49 +8,48 @@
 
     <ImageView
         android:id="@+id/one_value_widget_configuration_button"
-        android:layout_width="wrap_content"
-        android:layout_height="14dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="4dp"
         android:contentDescription="@string/one_value_configuration_image_description"
-        android:src="@drawable/ic_configuration" />
+        android:src="@drawable/widget_configuration" />
 
     <TextView
         android:id="@+id/one_value_widget_sensor_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginEnd="@dimen/widget_margin"
+        android:layout_marginStart="@dimen/widget_margin"
         android:layout_toEndOf="@id/one_value_widget_configuration_button"
         android:layout_toStartOf="@id/one_value_widget_refresh_button"
         android:ellipsize="end"
         android:singleLine="true"
         android:textAlignment="center"
         android:textColor="@color/colorWidgetText"
-        android:textSize="10sp"
+        android:textSize="@dimen/widget_text_size_small"
         tools:text="UV-Intensität" />
 
     <ImageView
         android:id="@+id/one_value_widget_refresh_button"
-        android:layout_width="wrap_content"
-        android:layout_height="14dp"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="4dp"
         android:contentDescription="@string/one_value_refresh_image_description"
-        android:src="@drawable/ic_refresh" />
+        android:src="@drawable/widget_refresh" />
 
     <TextView
         android:id="@+id/one_value_widget_sensor_data"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/one_value_widget_configuration_button"
         android:layout_centerInParent="true"
-        android:layout_marginTop="4dp"
         android:ellipsize="end"
+        android:gravity="center"
         android:singleLine="true"
+        android:textAlignment="center"
         android:textColor="@color/colorWidgetText"
-        android:textSize="18sp"
+        android:textSize="@dimen/widget_text_size_normal"
         android:textStyle="bold"
         tools:text="1234.56 μW/cm²" />
 
@@ -64,6 +63,6 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/colorWidgetText"
-        android:textSize="10sp"
+        android:textSize="@dimen/widget_text_size_small"
         tools:text="OK Lab Karlsruhe 1" />
 </RelativeLayout>

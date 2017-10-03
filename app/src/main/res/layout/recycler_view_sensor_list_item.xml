@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_cloud"
+        android:src="@drawable/configuration_list_adapter_cloud"
         android:tint="@color/colorPrimary"/>
 
     <LinearLayout
