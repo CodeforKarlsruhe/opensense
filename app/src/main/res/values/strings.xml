@@ -19,5 +19,6 @@
 
     <!-- One Value Widget -->
     <string name="one_value_image_description">Cloud symbol</string>
+    <string name="one_value_configuration_image_description">Configuration</string>
     <string name="one_value_error_text">Error</string>
 </resources>

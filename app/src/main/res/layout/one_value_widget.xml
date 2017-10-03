@@ -6,10 +6,21 @@
     android:padding="@dimen/widget_margin">
 
     <ImageView
-        android:id="@+id/one_value_widget_icon"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:id="@+id/one_value_widget_configuration_button"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/one_value_configuration_image_description"
+        android:src="@drawable/ic_configuration" />
+
+    <ImageView
+        android:id="@+id/one_value_widget_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"
         android:contentDescription="@string/one_value_image_description"
         android:src="@drawable/ic_cloud" />
