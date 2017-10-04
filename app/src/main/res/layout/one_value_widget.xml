@@ -16,9 +16,9 @@
         android:src="@drawable/widget_configuration" />
 
     <TextView
-        android:id="@+id/one_value_widget_sensor_title"
+        android:id="@+id/one_value_widget_box_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/widget_button_size"
         android:layout_marginEnd="@dimen/widget_margin"
         android:layout_marginStart="@dimen/widget_margin"
         android:layout_toEndOf="@id/one_value_widget_configuration_button"
@@ -28,7 +28,7 @@
         android:textAlignment="center"
         android:textColor="@color/colorWidgetText"
         android:textSize="@dimen/widget_text_size_small"
-        tools:text="UV-Intensität" />
+        tools:text="OK Lab Karlsruhe 1" />
 
     <ImageView
         android:id="@+id/one_value_widget_refresh_button"
@@ -54,7 +54,7 @@
         tools:text="1234.56 μW/cm²" />
 
     <TextView
-        android:id="@+id/one_value_widget_box_name"
+        android:id="@+id/one_value_widget_sensor_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -64,5 +64,5 @@
         android:singleLine="true"
         android:textColor="@color/colorWidgetText"
         android:textSize="@dimen/widget_text_size_small"
-        tools:text="OK Lab Karlsruhe 1" />
+        tools:text="UV-Intensität" />
 </RelativeLayout>

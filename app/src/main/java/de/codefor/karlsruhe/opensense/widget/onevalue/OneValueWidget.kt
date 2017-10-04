@@ -21,9 +21,9 @@ class OneValueWidget : BaseWidget() {
 
                 val views = RemoteViews(context.packageName, R.layout.one_value_widget)
                 views.apply {
-                    setTextViewText(R.id.one_value_widget_sensor_title, sensor?.title)
-                    setTextViewText(R.id.one_value_widget_sensor_data, "${sensor?.lastMeasurement?.value} ${sensor?.unit}")
                     setTextViewText(R.id.one_value_widget_box_name, senseBox.name)
+                    setTextViewText(R.id.one_value_widget_sensor_data, "${sensor?.lastMeasurement?.value} ${sensor?.unit}")
+                    setTextViewText(R.id.one_value_widget_sensor_title, sensor?.title)
                 }
 
                 setOnClickPendingIntents(context, appWidgetId, views)
@@ -31,9 +31,9 @@ class OneValueWidget : BaseWidget() {
             }, {
                 val views = RemoteViews(context.packageName, R.layout.one_value_widget)
                 views.apply {
-                    setTextViewText(R.id.one_value_widget_sensor_title, "")
-                    setTextViewText(R.id.one_value_widget_sensor_data, context.getString(R.string.one_value_error_text))
                     setTextViewText(R.id.one_value_widget_box_name, "")
+                    setTextViewText(R.id.one_value_widget_sensor_data, context.getString(R.string.one_value_error_text))
+                    setTextViewText(R.id.one_value_widget_sensor_title, "")
                 }
 
                 setOnClickPendingIntents(context, appWidgetId, views)
