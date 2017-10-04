@@ -61,10 +61,6 @@ object WidgetHelper {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    internal fun formatSensorData(value: String?, unit: String?): String {
-        return "$value $unit"
-    }
-
     internal fun createConfigurationPendingIntent(context: Context,
                                                   appWidgetId: Int,
                                                   configActivity: KClass<out BaseWidgetConfigurationActivity>): PendingIntent {

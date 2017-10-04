@@ -19,31 +19,38 @@ class OneValueWidget : BaseWidget() {
                 val sensorIds = WidgetHelper.loadSensorIds(context, appWidgetId)
                 val sensor = senseBox.sensors?.first { (id) -> id == sensorIds.first() }
 
-                val text = WidgetHelper.formatSensorData(sensor?.lastMeasurement?.value, sensor?.unit)
                 val views = RemoteViews(context.packageName, R.layout.one_value_widget)
                 views.apply {
                     setTextViewText(R.id.one_value_widget_sensor_title, sensor?.title)
-                    setTextViewText(R.id.one_value_widget_sensor_data, text)
+                    setTextViewText(R.id.one_value_widget_sensor_data, "${sensor?.lastMeasurement?.value} ${sensor?.unit}")
                     setTextViewText(R.id.one_value_widget_box_name, senseBox.name)
                 }
 
-                views.setOnClickPendingIntent(
-                        R.id.one_value_widget_configuration_button,
-                        WidgetHelper.createConfigurationPendingIntent(context, appWidgetId, OneValueConfigurationActivity::class)
-                )
-
-                views.setOnClickPendingIntent(
-                        R.id.one_value_widget_refresh_button,
-                        WidgetHelper.createRefreshPendingIntent(context, appWidgetId, OneValueWidget::class)
-                )
-
+                setOnClickPendingIntents(context, appWidgetId, views)
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }, {
-                // TODO: Hide needless views or show different layout
                 val views = RemoteViews(context.packageName, R.layout.one_value_widget)
-                views.setTextViewText(R.id.one_value_widget_sensor_data, context.getString(R.string.one_value_error_text))
+                views.apply {
+                    setTextViewText(R.id.one_value_widget_sensor_title, "")
+                    setTextViewText(R.id.one_value_widget_sensor_data, context.getString(R.string.one_value_error_text))
+                    setTextViewText(R.id.one_value_widget_box_name, "")
+                }
+
+                setOnClickPendingIntents(context, appWidgetId, views)
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             })
+        }
+
+        private fun setOnClickPendingIntents(context: Context, appWidgetId: Int, views: RemoteViews) {
+            views.setOnClickPendingIntent(
+                    R.id.one_value_widget_configuration_button,
+                    WidgetHelper.createConfigurationPendingIntent(context, appWidgetId, OneValueConfigurationActivity::class)
+            )
+
+            views.setOnClickPendingIntent(
+                    R.id.one_value_widget_refresh_button,
+                    WidgetHelper.createRefreshPendingIntent(context, appWidgetId, OneValueWidget::class)
+            )
         }
     }
 }
