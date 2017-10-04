@@ -7,7 +7,8 @@ import android.content.Intent
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
-import de.codefor.karlsruhe.opensense.widget.onevalue.OneValueConfigurationActivity
+import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
+import de.codefor.karlsruhe.opensense.widget.base.BaseWidgetConfigurationActivity
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -66,9 +67,18 @@ object WidgetHelper {
 
     internal fun createConfigurationPendingIntent(context: Context,
                                                   appWidgetId: Int,
-                                                  configActivity: KClass<OneValueConfigurationActivity>): PendingIntent {
+                                                  configActivity: KClass<out BaseWidgetConfigurationActivity>): PendingIntent {
         val intent = Intent(context, configActivity.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         return PendingIntent.getActivity(context, appWidgetId, intent, 0)
+    }
+
+    internal fun createRefreshPendingIntent(context: Context,
+                                            appWidgetId: Int,
+                                            appWidgetProvider: KClass<out BaseWidget>): PendingIntent {
+        val intent = Intent(context, appWidgetProvider.java)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, IntArray(1, { appWidgetId }))
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        return PendingIntent.getBroadcast(context, appWidgetId, intent, 0)
     }
 }

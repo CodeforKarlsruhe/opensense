@@ -33,8 +33,8 @@ class OneValueWidget : BaseWidget() {
                 )
 
                 views.setOnClickPendingIntent(
-                        R.id.one_value_widget_configuration_button,
-                        WidgetHelper.createConfigurationPendingIntent(context, appWidgetId, OneValueConfigurationActivity::class)
+                        R.id.one_value_widget_refresh_button,
+                        WidgetHelper.createRefreshPendingIntent(context, appWidgetId, OneValueWidget::class)
                 )
 
                 appWidgetManager.updateAppWidget(appWidgetId, views)
