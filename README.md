@@ -10,6 +10,11 @@ The current version `0.1.0` is already available in the [Play Store](https://pla
 
 ## Development
 The app is work in progress and in an early development stage.
+Open Sense uses the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows#gitflow-workflow) workflow:
+- All pull requests should be branched from develop
+- The pull request is merged into develop
+- The develop branch is merged into master for the next release
+
 Any suggestions, feature requests, bug reports or pull requests are very much appreciated.
 
 ## TODO
