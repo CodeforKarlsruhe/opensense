@@ -7,6 +7,7 @@ import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
 
 object WidgetHelper {
     private val PREFS_NAME = "de.codefor.karlsruhe.opensense.widget"
@@ -53,6 +54,10 @@ object WidgetHelper {
         return OpenSenseMapService.getBox(boxId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    internal fun getAllBoxes(): Call<List<SenseBox>> {
+        return OpenSenseMapService.getAllBoxes()
     }
 
     internal fun formatSensorData(value: String?, unit: String?): String {

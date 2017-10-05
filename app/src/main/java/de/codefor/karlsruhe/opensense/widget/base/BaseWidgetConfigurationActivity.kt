@@ -9,15 +9,22 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import com.mapbox.mapboxsdk.geometry.LatLng
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
+import com.mapbox.mapboxsdk.maps.MapView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 /**
@@ -31,31 +38,74 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private var boxId = ""
 
     private lateinit var coordinatorLayout: CoordinatorLayout
-    private lateinit var boxIdEditText: EditText
+    //private lateinit var boxIdEditText: EditText
     private lateinit var boxInfoLayout: LinearLayout
     private lateinit var boxName: TextView
     private lateinit var boxDescription: TextView
     private lateinit var boxSensorsRecyclerView: RecyclerView
 
-    private var addWidgetOnClickListener: View.OnClickListener = View.OnClickListener {
-        WidgetHelper.getSenseBox(boxIdEditText.text.toString())
-                .subscribe(this::showBoxInformation) {
-                    Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
-                            .show()
-                }
-    }
+    private lateinit var mapView: MapView
+
 
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
 
         setResult(Activity.RESULT_CANCELED)
 
+        // Mapbox Access token
+        Mapbox.getInstance(getApplicationContext(), getResources().getString(R.string.mapbox_token));
+
         setContentView(R.layout.activity_base_widget_configuration)
 
-        findViewById<View>(R.id.default_widget_configure_select).setOnClickListener(addWidgetOnClickListener)
+
+        mapView = findViewById<View>(R.id.mapView) as MapView
+        mapView.onCreate(icicle)
+
+        mapView.getMapAsync { mapboxMap ->
+            run {
+                // get all boxes from api
+                val call = WidgetHelper.getAllBoxes()
+
+                // get all boxes from api call
+                call.enqueue(object : Callback<List<SenseBox>> {
+                    override fun onResponse(call: Call<List<SenseBox>>, response: Response<List<SenseBox>>) {
+                        // display all boxes on map
+                        val boxes = response.body()!!
+                        for (box in boxes) {
+                            mapboxMap.addMarker(MarkerOptions()
+                                    .position(LatLng(box.loc!![0].geometry!!.coordinates!![1], box.loc!![0].geometry!!.coordinates!![0]))
+                                    .title(box.name)
+                                    .snippet(box.id)
+                            );
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<List<SenseBox>>?, t: Throwable?) {
+                        Snackbar.make(coordinatorLayout, R.string.empty_response, Snackbar.LENGTH_SHORT)
+                                .show()
+                    }
+                })
+
+                // handle marker clicks
+                mapboxMap.setOnMarkerClickListener({ marker ->
+                    run {
+                        WidgetHelper.getSenseBox(marker.snippet)
+                                .subscribe(this::showBoxInformation) {
+                                    Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
+                                            .show()
+                                }
+
+                        return@setOnMarkerClickListener true
+                    }
+                })
+
+            }
+        }
+
+
 
         coordinatorLayout = findViewById<View>(R.id.coordinator_layout) as CoordinatorLayout
-        boxIdEditText = findViewById<View>(R.id.default_widget_configure_id) as EditText
         boxInfoLayout = findViewById<View>(R.id.default_widget_configure_box) as LinearLayout
         boxName = findViewById<View>(R.id.default_widget_configure_box_name) as TextView
         boxDescription = findViewById<View>(R.id.default_widget_configure_box_description) as TextView
@@ -72,7 +122,6 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
         when (widgetId) {
             AppWidgetManager.INVALID_APPWIDGET_ID -> finish()
-            else -> boxIdEditText.setText(WidgetHelper.loadBoxId(this@BaseWidgetConfigurationActivity, widgetId))
         }
     }
 
