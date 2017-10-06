@@ -22,6 +22,7 @@ import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
 import com.mapbox.mapboxsdk.maps.MapView
+import com.mapbox.mapboxsdk.maps.MapboxMap
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,13 +39,14 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private var boxId = ""
 
     private lateinit var coordinatorLayout: CoordinatorLayout
-    //private lateinit var boxIdEditText: EditText
     private lateinit var boxInfoLayout: LinearLayout
     private lateinit var boxName: TextView
     private lateinit var boxDescription: TextView
     private lateinit var boxSensorsRecyclerView: RecyclerView
 
     private lateinit var mapView: MapView
+
+    private lateinit var mapboxMap: MapboxMap
 
 
     public override fun onCreate(icicle: Bundle?) {
@@ -63,29 +65,11 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
         mapView.getMapAsync { mapboxMap ->
             run {
-                // get all boxes from api
-                val call = WidgetHelper.getAllBoxes()
+                this.mapboxMap = mapboxMap
 
-                // get all boxes from api call
-                call.enqueue(object : Callback<List<SenseBox>> {
-                    override fun onResponse(call: Call<List<SenseBox>>, response: Response<List<SenseBox>>) {
-                        // display all boxes on map
-                        val boxes = response.body()!!
-                        for (box in boxes) {
-                            mapboxMap.addMarker(MarkerOptions()
-                                    .position(LatLng(box.loc!![0].geometry!!.coordinates!![1], box.loc!![0].geometry!!.coordinates!![0]))
-                                    .title(box.name)
-                                    .snippet(box.id)
-                            );
-                        }
-
-                    }
-
-                    override fun onFailure(call: Call<List<SenseBox>>?, t: Throwable?) {
-                        Snackbar.make(coordinatorLayout, R.string.empty_response, Snackbar.LENGTH_SHORT)
-                                .show()
-                    }
-                })
+                // get all boxes from api and display them on the map
+                WidgetHelper.getAllBoxes()
+                        .subscribe(this::displayBoxesOnMap)
 
                 // handle marker clicks
                 mapboxMap.setOnMarkerClickListener({ marker ->
@@ -136,6 +120,23 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun displayBoxesOnMap(boxes: List<SenseBox>) {
+        if(boxes.isEmpty()) {
+            Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
+                    .show()
+            return
+        }
+
+        for (box in boxes) {
+            val coordinates = box.loc?.get(0)?.geometry?.coordinates ?: continue
+            this.mapboxMap.addMarker(MarkerOptions()
+                    .position(LatLng(coordinates[1], coordinates[0]))
+                    .title(box.name)
+                    .snippet(box.id)
+            )
+        }
     }
 
     private fun showBoxInformation(senseBox: SenseBox) {

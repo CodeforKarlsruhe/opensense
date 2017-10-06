@@ -26,7 +26,7 @@ object OpenSenseMapService {
         return boxesApi.getBox(boxId)
     }
 
-    fun getAllBoxes(): Call<List<SenseBox>> {
+    fun getAllBoxes(): Single<List<SenseBox>> {
         return boxesApi.getAllBoxes()
     }
 }

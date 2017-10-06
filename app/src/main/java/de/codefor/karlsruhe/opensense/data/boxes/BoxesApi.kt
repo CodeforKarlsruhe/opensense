@@ -11,5 +11,5 @@ interface BoxesApi {
     fun getBox(@Path("boxId") boxId: String) : Single<SenseBox>
 
     @GET("boxes")
-    fun getAllBoxes(): Call<List<SenseBox>>
+    fun getAllBoxes(): Single<List<SenseBox>>
 }

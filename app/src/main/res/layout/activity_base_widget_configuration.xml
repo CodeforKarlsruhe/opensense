@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/widget_configuration_title"
                 android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+                android:textSize="18sp" />
 
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/mapView"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:textSize="18sp"
                 tools:text="Yet another senseBox" />
 
             <TextView

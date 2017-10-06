@@ -56,8 +56,10 @@ object WidgetHelper {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    internal fun getAllBoxes(): Call<List<SenseBox>> {
+    internal fun getAllBoxes(): Single<List<SenseBox>> {
         return OpenSenseMapService.getAllBoxes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     internal fun formatSensorData(value: String?, unit: String?): String {
