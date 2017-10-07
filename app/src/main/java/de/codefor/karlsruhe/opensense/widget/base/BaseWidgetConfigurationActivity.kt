@@ -53,6 +53,13 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_base_widget_configuration)
 
+        coordinatorLayout = findViewById<View>(R.id.coordinator_layout) as CoordinatorLayout
+        boxInfoLayout = findViewById<View>(R.id.default_widget_configure_box) as LinearLayout
+        boxName = findViewById<View>(R.id.default_widget_configure_box_name) as TextView
+        boxDescription = findViewById<View>(R.id.default_widget_configure_box_description) as TextView
+
+        boxSensorsRecyclerView = findViewById<View>(R.id.default_widget_configure_box_sensors_recycler_view) as RecyclerView
+        boxSensorsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         mapView = findViewById<View>(R.id.mapView) as MapView
         mapView.onCreate(icicle)
@@ -77,16 +84,6 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
             }
         }
-
-
-        coordinatorLayout = findViewById<View>(R.id.coordinator_layout) as CoordinatorLayout
-        boxInfoLayout = findViewById<View>(R.id.default_widget_configure_box) as LinearLayout
-        boxName = findViewById<View>(R.id.default_widget_configure_box_name) as TextView
-        boxDescription = findViewById<View>(R.id.default_widget_configure_box_description) as TextView
-
-        boxSensorsRecyclerView = findViewById<View>(R.id.default_widget_configure_box_sensors_recycler_view) as RecyclerView
-        boxSensorsRecyclerView.layoutManager = LinearLayoutManager(this)
-        boxSensorsRecyclerView.adapter
 
         val extras = intent.extras
         if (extras != null) {
