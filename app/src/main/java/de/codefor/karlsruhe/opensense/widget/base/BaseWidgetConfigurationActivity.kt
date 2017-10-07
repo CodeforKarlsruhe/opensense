@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
@@ -57,9 +58,19 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
         boxSensorsRecyclerView = findViewById<View>(R.id.default_widget_configure_box_sensors_recycler_view) as RecyclerView
         boxSensorsRecyclerView.layoutManager = LinearLayoutManager(this)
 
+
+        val extras = intent.extras
+        if (extras != null) {
+            widgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+        }
+
+        when (widgetId) {
+            AppWidgetManager.INVALID_APPWIDGET_ID -> finish()
+        }
+
         mapView = findViewById<View>(R.id.mapView) as MapView
         mapView.onCreate(icicle)
-
         mapView.getMapAsync { mapboxMap ->
             run {
                 // get all boxes from api and display them on the map
@@ -79,16 +90,6 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
                 })
 
             }
-        }
-
-        val extras = intent.extras
-        if (extras != null) {
-            widgetId = extras.getInt(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        }
-
-        when (widgetId) {
-            AppWidgetManager.INVALID_APPWIDGET_ID -> finish()
         }
     }
 
@@ -112,13 +113,20 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
             return
         }
 
+        val currentBoxId = WidgetHelper.loadBoxId(this@BaseWidgetConfigurationActivity, widgetId)
         for (box in boxes) {
             val coordinates = box.loc?.get(0)?.geometry?.coordinates ?: continue
+            val markerPosition = LatLng(coordinates[1], coordinates[0])
             mapboxMap.addMarker(MarkerOptions()
-                    .position(LatLng(coordinates[1], coordinates[0]))
+                    .position(markerPosition)
                     .title(box.name)
                     .snippet(box.id)
             )
+
+            if (box.id == currentBoxId) {
+                mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition, 11.0))
+                showBoxInformation(box)
+            }
         }
     }
 
