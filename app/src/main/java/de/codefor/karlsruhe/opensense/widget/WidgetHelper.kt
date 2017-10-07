@@ -61,6 +61,12 @@ object WidgetHelper {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
+    internal fun getAllBoxes(): Single<List<SenseBox>> {
+        return OpenSenseMapService.getAllBoxes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
     internal fun createConfigurationPendingIntent(context: Context,
                                                   appWidgetId: Int,
                                                   configActivity: KClass<out BaseWidgetConfigurationActivity>): PendingIntent {

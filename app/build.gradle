@@ -12,6 +12,8 @@ android {
         versionCode 2
         versionName "0.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "MAPBOX_API_TOKEN", mapboxApiToken
     }
     buildTypes {
         release {
@@ -35,6 +37,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+    implementation ('com.mapbox.mapboxsdk:mapbox-android-sdk:5.1.1@aar'){
+        transitive=true
+    }
 
 
     testImplementation 'junit:junit:4.12'

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,30 +14,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="fill_horizontal"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:labelFor="@id/default_widget_configure_id"
-                android:text="@string/widget_configuration_title" />
+                android:text="@string/widget_configuration_title"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/default_widget_configure_id"
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/widget_configuration_box_id"
-                android:inputType="text" />
+                android:layout_height="301dp"
+                mapbox:mapbox_styleUrl="@string/mapbox_style_mapbox_streets" />
 
-            <Button
-                android:id="@+id/default_widget_configure_select"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/widget_configuration_select" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,6 +48,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:textAlignment="center"
+                android:textSize="18sp"
                 tools:text="Yet another senseBox" />
 
             <TextView

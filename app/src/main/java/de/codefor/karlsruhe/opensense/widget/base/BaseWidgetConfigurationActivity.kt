@@ -12,9 +12,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.mapbox.mapboxsdk.annotations.MarkerOptions
+import com.mapbox.mapboxsdk.geometry.LatLng
+import com.mapbox.mapboxsdk.maps.MapView
+import com.mapbox.mapboxsdk.maps.MapboxMap
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
@@ -31,19 +34,13 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private var boxId = ""
 
     private lateinit var coordinatorLayout: CoordinatorLayout
-    private lateinit var boxIdEditText: EditText
     private lateinit var boxInfoLayout: LinearLayout
     private lateinit var boxName: TextView
     private lateinit var boxDescription: TextView
     private lateinit var boxSensorsRecyclerView: RecyclerView
 
-    private var addWidgetOnClickListener: View.OnClickListener = View.OnClickListener {
-        WidgetHelper.getSenseBox(boxIdEditText.text.toString())
-                .subscribe(this::showBoxInformation) {
-                    Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
-                            .show()
-                }
-    }
+    private lateinit var mapView: MapView
+
 
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
@@ -52,17 +49,37 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_base_widget_configuration)
 
-        findViewById<View>(R.id.default_widget_configure_select).setOnClickListener(addWidgetOnClickListener)
-
         coordinatorLayout = findViewById<View>(R.id.coordinator_layout) as CoordinatorLayout
-        boxIdEditText = findViewById<View>(R.id.default_widget_configure_id) as EditText
         boxInfoLayout = findViewById<View>(R.id.default_widget_configure_box) as LinearLayout
         boxName = findViewById<View>(R.id.default_widget_configure_box_name) as TextView
         boxDescription = findViewById<View>(R.id.default_widget_configure_box_description) as TextView
 
         boxSensorsRecyclerView = findViewById<View>(R.id.default_widget_configure_box_sensors_recycler_view) as RecyclerView
         boxSensorsRecyclerView.layoutManager = LinearLayoutManager(this)
-        boxSensorsRecyclerView.adapter
+
+        mapView = findViewById<View>(R.id.mapView) as MapView
+        mapView.onCreate(icicle)
+
+        mapView.getMapAsync { mapboxMap ->
+            run {
+                // get all boxes from api and display them on the map
+                WidgetHelper.getAllBoxes().subscribe({ boxes -> displayBoxesOnMap(mapboxMap, boxes) })
+
+                // handle marker clicks
+                mapboxMap.setOnMarkerClickListener({ marker ->
+                    run {
+                        WidgetHelper.getSenseBox(marker.snippet)
+                                .subscribe(this::showBoxInformation) {
+                                    Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
+                                            .show()
+                                }
+
+                        return@setOnMarkerClickListener true
+                    }
+                })
+
+            }
+        }
 
         val extras = intent.extras
         if (extras != null) {
@@ -72,7 +89,6 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
         when (widgetId) {
             AppWidgetManager.INVALID_APPWIDGET_ID -> finish()
-            else -> boxIdEditText.setText(WidgetHelper.loadBoxId(this@BaseWidgetConfigurationActivity, widgetId))
         }
     }
 
@@ -87,6 +103,23 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun displayBoxesOnMap(mapboxMap: MapboxMap, boxes: List<SenseBox>) {
+        if (boxes.isEmpty()) {
+            Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
+                    .show()
+            return
+        }
+
+        for (box in boxes) {
+            val coordinates = box.loc?.get(0)?.geometry?.coordinates ?: continue
+            mapboxMap.addMarker(MarkerOptions()
+                    .position(LatLng(coordinates[1], coordinates[0]))
+                    .title(box.name)
+                    .snippet(box.id)
+            )
+        }
     }
 
     private fun showBoxInformation(senseBox: SenseBox) {
