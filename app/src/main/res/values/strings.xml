@@ -24,6 +24,4 @@
     <string name="one_value_image_description">Cloud symbol</string>
     <string name="one_value_error_text">Error</string>
 
-    <string name="mapbox_token">## enter your mapbox token here ##</string>
-
 </resources>
