@@ -69,7 +69,7 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
             AppWidgetManager.INVALID_APPWIDGET_ID -> finish()
         }
 
-        mapView = findViewById<View>(R.id.mapView) as MapView
+        mapView = findViewById<View>(R.id.default_widget_configure_mapView) as MapView
         mapView.onCreate(icicle)
         mapView.getMapAsync { mapboxMap ->
             run {
