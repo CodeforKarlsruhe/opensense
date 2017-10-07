@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="widget_margin">4dp</dimen>
-    <dimen name="widget_button_size">16dp</dimen>
+    <dimen name="widget_button_size">18dp</dimen>
     <dimen name="widget_text_size_small">10sp</dimen>
     <dimen name="widget_text_size_normal">18sp</dimen>
 </resources>
