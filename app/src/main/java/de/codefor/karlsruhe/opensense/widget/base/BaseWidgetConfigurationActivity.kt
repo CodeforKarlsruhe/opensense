@@ -14,7 +14,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
@@ -47,9 +46,6 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
         super.onCreate(icicle)
 
         setResult(Activity.RESULT_CANCELED)
-
-        // Mapbox Access token
-        Mapbox.getInstance(getApplicationContext(), getResources().getString(R.string.mapbox_token));
 
         setContentView(R.layout.activity_base_widget_configuration)
 

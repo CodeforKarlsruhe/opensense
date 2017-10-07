@@ -12,6 +12,8 @@ android {
         versionCode 2
         versionName "0.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "MAPBOX_API_TOKEN", mapboxApiToken
     }
     buildTypes {
         release {
