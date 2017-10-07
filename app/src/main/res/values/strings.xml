@@ -12,6 +12,9 @@
     <string name="widget_configuration_snackbar_error_loading">Error fetching the senseBox data</string>
     <string name="widget_configuration_snackbar_error_invalid_data">Invalid senseBox data</string>
 
+    <string name="empty_response">Empty server response</string>
+
+
     <plurals name="maximumNumberOfSensors">
         <item quantity="one">Please select a maximum of %1$d sensor</item>
         <item quantity="other">Please select a maximum of %1$d sensors</item>
@@ -20,4 +23,7 @@
     <!-- One Value Widget -->
     <string name="one_value_image_description">Cloud symbol</string>
     <string name="one_value_error_text">Error</string>
+
+    <string name="mapbox_token">## enter your mapbox token here ##</string>
+
 </resources>
