@@ -17,8 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:name=".mapbox.mapboxsdk.telemetry.TelemetryService"/>
-
         <activity android:name=".widget.onevalue.OneValueConfigurationActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
