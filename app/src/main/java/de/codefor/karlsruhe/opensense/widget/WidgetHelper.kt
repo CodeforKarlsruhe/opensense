@@ -1,12 +1,18 @@
 package de.codefor.karlsruhe.opensense.widget
 
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.content.Intent
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
+import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
+import de.codefor.karlsruhe.opensense.widget.base.BaseWidgetConfigurationActivity
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlin.reflect.KClass
 
 object WidgetHelper {
     private val PREFS_NAME = "de.codefor.karlsruhe.opensense.widget"
@@ -55,7 +61,26 @@ object WidgetHelper {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    internal fun formatSensorData(value: String?, unit: String?): String {
-        return "$value $unit"
+    internal fun getAllBoxes(): Single<List<SenseBox>> {
+        return OpenSenseMapService.getAllBoxes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    internal fun createConfigurationPendingIntent(context: Context,
+                                                  appWidgetId: Int,
+                                                  configActivity: KClass<out BaseWidgetConfigurationActivity>): PendingIntent {
+        val intent = Intent(context, configActivity.java)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        return PendingIntent.getActivity(context, appWidgetId, intent, 0)
+    }
+
+    internal fun createRefreshPendingIntent(context: Context,
+                                            appWidgetId: Int,
+                                            appWidgetProvider: KClass<out BaseWidget>): PendingIntent {
+        val intent = Intent(context, appWidgetProvider.java)
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, IntArray(1, { appWidgetId }))
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        return PendingIntent.getBroadcast(context, appWidgetId, intent, 0)
     }
 }

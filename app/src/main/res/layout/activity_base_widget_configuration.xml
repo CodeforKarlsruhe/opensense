@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
@@ -10,40 +11,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:id="@+id/default_widget_configure_mapView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:labelFor="@id/default_widget_configure_id"
-                android:text="@string/widget_configuration_title" />
-
-            <EditText
-                android:id="@+id/default_widget_configure_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/widget_configuration_box_id"
-                android:inputType="text" />
-
-            <Button
-                android:id="@+id/default_widget_configure_select"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/widget_configuration_select" />
-        </LinearLayout>
+            android:layout_height="250dp"
+            mapbox:mapbox_styleUrl="@string/mapbox_style_mapbox_streets" />
 
         <LinearLayout
             android:id="@+id/default_widget_configure_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
@@ -53,6 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:textAlignment="center"
+                android:textSize="18sp"
                 tools:text="Yet another senseBox" />
 
             <TextView
@@ -67,9 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp" />
-
-
         </LinearLayout>
-
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
