@@ -31,8 +31,6 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private var widgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private var boxId = ""
 
-    private lateinit var mapView: MapView
-
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
 
@@ -51,9 +49,8 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
             AppWidgetManager.INVALID_APPWIDGET_ID -> finish()
         }
 
-        mapView = findViewById<View>(R.id.default_widget_configure_mapView) as MapView
-        mapView.onCreate(icicle)
-        mapView.getMapAsync { mapboxMap ->
+        default_widget_configure_mapView.onCreate(icicle)
+        default_widget_configure_mapView.getMapAsync { mapboxMap ->
             run {
                 // get all boxes from api and display them on the map
                 WidgetHelper.getAllBoxes().subscribe({ boxes -> displayBoxesOnMap(mapboxMap, boxes) })
