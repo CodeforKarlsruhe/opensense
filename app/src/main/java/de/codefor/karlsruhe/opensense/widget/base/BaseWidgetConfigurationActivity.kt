@@ -4,16 +4,12 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -22,6 +18,7 @@ import com.mapbox.mapboxsdk.maps.MapboxMap
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
+import kotlinx.android.synthetic.main.activity_base_widget_configuration.*
 
 
 /**
@@ -34,30 +31,13 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
     private var widgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private var boxId = ""
 
-    private lateinit var coordinatorLayout: CoordinatorLayout
-    private lateinit var boxInfoLayout: LinearLayout
-    private lateinit var boxName: TextView
-    private lateinit var boxDescription: TextView
-    private lateinit var boxSensorsRecyclerView: RecyclerView
-
-    private lateinit var mapView: MapView
-
-
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
 
         setResult(Activity.RESULT_CANCELED)
 
         setContentView(R.layout.activity_base_widget_configuration)
-
-        coordinatorLayout = findViewById<View>(R.id.coordinator_layout) as CoordinatorLayout
-        boxInfoLayout = findViewById<View>(R.id.default_widget_configure_box) as LinearLayout
-        boxName = findViewById<View>(R.id.default_widget_configure_box_name) as TextView
-        boxDescription = findViewById<View>(R.id.default_widget_configure_box_description) as TextView
-
-        boxSensorsRecyclerView = findViewById<View>(R.id.default_widget_configure_box_sensors_recycler_view) as RecyclerView
-        boxSensorsRecyclerView.layoutManager = LinearLayoutManager(this)
-
+        default_widget_configure_box_sensors_recycler_view.layoutManager = LinearLayoutManager(this)
 
         val extras = intent.extras
         if (extras != null) {
@@ -69,9 +49,8 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
             AppWidgetManager.INVALID_APPWIDGET_ID -> finish()
         }
 
-        mapView = findViewById<View>(R.id.default_widget_configure_mapView) as MapView
-        mapView.onCreate(icicle)
-        mapView.getMapAsync { mapboxMap ->
+        default_widget_configure_mapView.onCreate(icicle)
+        default_widget_configure_mapView.getMapAsync { mapboxMap ->
             run {
                 // get all boxes from api and display them on the map
                 WidgetHelper.getAllBoxes().subscribe({ boxes -> displayBoxesOnMap(mapboxMap, boxes) })
@@ -81,7 +60,7 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
                     run {
                         WidgetHelper.getSenseBox(marker.snippet)
                                 .subscribe(this::showBoxInformation) {
-                                    Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
+                                    Snackbar.make(coordinator_layout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
                                             .show()
                                 }
 
@@ -108,7 +87,7 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
     private fun displayBoxesOnMap(mapboxMap: MapboxMap, boxes: List<SenseBox>) {
         if (boxes.isEmpty()) {
-            Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
+            Snackbar.make(coordinator_layout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
                     .show()
             return
         }
@@ -132,32 +111,37 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
     private fun showBoxInformation(senseBox: SenseBox) {
         if (senseBox.id == null || senseBox.sensors == null) {
-            Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_error_invalid_data, Snackbar.LENGTH_SHORT)
+            Snackbar.make(coordinator_layout, R.string.widget_configuration_snackbar_error_invalid_data, Snackbar.LENGTH_SHORT)
                     .show()
             return
         }
 
         boxId = senseBox.id
-        boxInfoLayout.visibility = View.VISIBLE
-        boxName.text = senseBox.name
-        boxDescription.text = senseBox.description
-        boxSensorsRecyclerView.adapter = SensorListAdapter(senseBox.sensors)
+        default_widget_configure_box.visibility = View.VISIBLE
+        default_widget_configure_box_name.text = senseBox.name
+        default_widget_configure_box_description.text = senseBox.description
+        default_widget_configure_box_sensors_recycler_view.adapter = SensorListAdapter(senseBox.sensors)
     }
 
     private fun saveAndShowWidget() {
-        val adapter = boxSensorsRecyclerView.adapter
-        if (adapter != null && adapter is SensorListAdapter) {
-            if (adapter.getSelectedItems().isEmpty()) {
-                Snackbar.make(coordinatorLayout, R.string.widget_configuration_snackbar_empty_list, Snackbar.LENGTH_SHORT)
-                        .show()
-            } else if (adapter.getSelectedItems().size <= maxSensorItems) {
+        val adapter = default_widget_configure_box_sensors_recycler_view.adapter
+        if (adapter == null || adapter !is SensorListAdapter) return
+
+        when {
+            adapter.getSelectedItems().isEmpty() -> {
+                Snackbar.make(coordinator_layout,
+                        R.string.widget_configuration_snackbar_empty_list, Snackbar.LENGTH_SHORT).show()
+            }
+
+            adapter.getSelectedItems().size <= maxSensorItems -> {
                 WidgetHelper.saveConfiguration(this, widgetId, boxId, adapter.getSelectedItems())
                 update(widgetId)
                 closeConfigurationActivity()
-            } else {
+            }
+
+            else -> {
                 val text = resources.getQuantityString(R.plurals.maximumNumberOfSensors, maxSensorItems, maxSensorItems)
-                Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_SHORT)
-                        .show()
+                Snackbar.make(coordinator_layout, text, Snackbar.LENGTH_SHORT).show()
             }
         }
     }
