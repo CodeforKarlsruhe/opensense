@@ -48,4 +48,6 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    compile "com.androidplot:androidplot-core:1.5.1"
 }

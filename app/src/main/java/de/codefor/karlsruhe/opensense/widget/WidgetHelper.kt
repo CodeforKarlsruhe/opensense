@@ -7,6 +7,7 @@ import android.content.Intent
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
+import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidgetConfigurationActivity
 import io.reactivex.Single
@@ -63,6 +64,19 @@ object WidgetHelper {
 
     internal fun getAllBoxes(): Single<List<SenseBox>> {
         return OpenSenseMapService.getAllBoxes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    internal fun getSensorHistory(context: Context, appWidgetId: Int): Single<List<SensorHistory>> {
+        val boxId = loadBoxId(context, appWidgetId)
+        // TODO loadSensorIds(context, appWidgetId)[0]
+        val sensorId = "59c67b5ed67eb50011666dc0"
+        return getSensorHistory(boxId, sensorId)
+    }
+
+    internal fun getSensorHistory(boxId: String, sensorId: String): Single<List<SensorHistory>> {
+        return OpenSenseMapService.getSensorHistory(boxId, sensorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }

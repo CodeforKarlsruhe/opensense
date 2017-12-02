@@ -2,6 +2,7 @@ package de.codefor.karlsruhe.opensense.data
 
 import de.codefor.karlsruhe.opensense.data.boxes.BoxesApi
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
+import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -28,5 +29,9 @@ object OpenSenseMapService {
 
     fun getAllBoxes(): Single<List<SenseBox>> {
         return boxesApi.getAllBoxes()
+    }
+
+    fun getSensorHistory(boxId: String, sensorId: String): Single<List<SensorHistory>> {
+        return boxesApi.getSensorHistory(boxId, sensorId)
     }
 }
