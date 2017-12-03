@@ -4,12 +4,14 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
+import java.util.logging.Logger
 
 /**
  * Implementation of default widget containing a maximum of five sensor data.
  * The configuration is implemented in [BaseWidgetConfigurationActivity] and its child classes.
  */
 abstract class BaseWidget : AppWidgetProvider() {
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             onUpdateWidget(context, appWidgetId, appWidgetManager)

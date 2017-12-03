@@ -1,25 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWidgetBackground"
+    android:padding="@dimen/widget_margin"
+    tools:width="40dp">
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/plot_widget_img"
         android:layout_width="fill_parent"
-        android:layout_height="358dp"
+        android:layout_height="fill_parent"
         android:background="@android:drawable/alert_dark_frame"
-        android:scaleType="centerInside"></ImageView>
+        android:contentDescription="Plot is loading" />
 
-    <TextView
-        android:id="@+id/plot_widget_box_name"
-        android:layout_width="384dp"
-        android:layout_height="155dp"
-        android:layout_marginEnd="@dimen/widget_margin"
-        android:layout_marginStart="@dimen/widget_margin"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:textColor="@color/colorWidgetText"
-        android:textSize="@dimen/widget_text_size_small" />
-
-</LinearLayout>
+</RelativeLayout>
