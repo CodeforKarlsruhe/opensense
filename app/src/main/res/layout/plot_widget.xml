@@ -6,11 +6,55 @@
     android:padding="@dimen/widget_margin"
     tools:width="40dp">
 
+
+    <ImageView
+        android:id="@+id/plot_widget_configuration_button"
+        android:layout_width="@dimen/widget_button_size"
+        android:layout_height="@dimen/widget_button_size"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/widget_configuration" />
+
+    <TextView
+        android:id="@+id/plot_widget_box_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/widget_button_size"
+        android:layout_marginEnd="@dimen/widget_margin"
+        android:layout_marginStart="@dimen/widget_margin"
+        android:layout_toEndOf="@id/plot_widget_configuration_button"
+        android:layout_toStartOf="@id/plot_widget_refresh_button"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textColor="@color/colorWidgetText"
+        android:textSize="@dimen/widget_text_size_small"
+        tools:text="OK Lab Karlsruhe 1" />
+
+    <ProgressBar
+        android:id="@+id/plot_widget_progress_bar"
+        android:layout_width="@dimen/widget_button_size"
+        android:layout_height="@dimen/widget_button_size"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/plot_widget_refresh_button"
+        android:layout_width="@dimen/widget_button_size"
+        android:layout_height="@dimen/widget_button_size"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/widget_refresh" />
+
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/plot_widget_img"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
         android:background="@android:drawable/alert_dark_frame"
-        android:contentDescription="Plot is loading" />
+        android:contentDescription="Plot is loading"
+        android:cropToPadding="true" />
 
 </RelativeLayout>
