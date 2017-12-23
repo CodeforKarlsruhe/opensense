@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.widget.RemoteViews
 import de.codefor.karlsruhe.opensense.R
 import android.view.View
+import com.androidplot.util.PixelUtils
 import com.androidplot.xy.*
 import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
@@ -67,11 +68,21 @@ class PlotWidget : BaseWidget() {
             // TODO use proper strings depending on selected sensor
             plot.setRangeLabel("Temp. in Grad")
             plot.setDomainLabel("Zeit")
-            plot.graph.setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM)
 
-            plot.title.labelPaint.textSize = 20f
-            plot.rangeTitle.labelPaint.textSize = 20f
-            plot.domainTitle.labelPaint.textSize = 20f
+            // show the tic labels
+            plot.graph.setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
+            // move the tic labels
+            plot.graph.lineLabelInsets.right = PixelUtils.dpToPix(20f)
+            plot.graph.lineLabelInsets.bottom = PixelUtils.dpToPix(4f)
+            // format the tic labels
+            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.BLACK
+            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = 25f
+            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.BLACK
+            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = 25f
+
+            plot.title.labelPaint.textSize = 25f
+            plot.rangeTitle.labelPaint.textSize = 25f
+            plot.domainTitle.labelPaint.textSize = 25f
 
             plot.legend.isVisible = false
 
@@ -102,7 +113,7 @@ class PlotWidget : BaseWidget() {
                     SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
                     "TODO string for legend (set invisible atm)")
             // TODO use the xml format here?
-            val seriesFormat = LineAndPointFormatter(Color.BLACK, Color.BLACK, Color.LTGRAY, null)
+            val seriesFormat = LineAndPointFormatter(Color.BLACK, Color.BLACK, Color.TRANSPARENT, null)
             // add the series to the xyplot:
             plot.addSeries(series, seriesFormat)
 
