@@ -38,12 +38,23 @@ class PlotWidget : BaseWidget() {
             appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
 
             WidgetHelper.getSensorHistory(context, appWidgetId).subscribe(
-                    // onSuccess
-                    { sensorHist ->
-                        drawPlot(context, appWidgetId, appWidgetManager, sensorHist)
-                    },
-                    // onError: do nothing (but also do not crash!)
-                    { }
+                // onSuccess
+                { sensorHist ->
+                    drawPlot(context, appWidgetId, appWidgetManager, sensorHist)
+                }, {
+                    views.apply {
+                            // Show refresh button, hide progress bar
+                            setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
+                            setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
+                            // Remove values, set error text
+                            // TODO a resource error string on it's own for plotwidget?
+                            setTextViewText(R.id.plot_widget_error_text, context.getString(R.string.one_value_error_text))
+                            setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
+                            setViewVisibility(R.id.plot_widget_img, View.GONE)
+                    }
+                    setOnClickPendingIntents(context, appWidgetId, views)
+                    appWidgetManager.updateAppWidget(appWidgetId, views)
+                }
             )
         }
 
@@ -56,6 +67,7 @@ class PlotWidget : BaseWidget() {
             // TODO use proper strings depending on selected sensor
             plot.setRangeLabel("Temp. in Grad")
             plot.setDomainLabel("Zeit")
+            plot.graph.setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM)
 
             plot.title.labelPaint.textSize = 20f
             plot.rangeTitle.labelPaint.textSize = 20f
@@ -101,6 +113,8 @@ class PlotWidget : BaseWidget() {
             views.apply {
                 setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                 setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
+                setViewVisibility(R.id.plot_widget_error_text, View.GONE)
+                setViewVisibility(R.id.plot_widget_img, View.VISIBLE)
             }
 
             setOnClickPendingIntents(context, appWidgetId, views)

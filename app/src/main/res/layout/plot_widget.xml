@@ -57,4 +57,18 @@
         android:contentDescription="Plot is loading"
         android:cropToPadding="true" />
 
+    <TextView
+        android:id="@+id/plot_widget_error_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textColor="@color/colorWidgetText"
+        android:textSize="@dimen/widget_text_size_normal"
+        android:textStyle="bold"
+        tools:text="" />
+
 </RelativeLayout>
