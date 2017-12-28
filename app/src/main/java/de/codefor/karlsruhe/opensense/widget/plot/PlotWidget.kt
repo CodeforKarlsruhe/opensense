@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
@@ -22,6 +23,11 @@ class PlotWidget : BaseWidget() {
 
     override fun onUpdateWidget(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
         update(context, appWidgetId, appWidgetManager)
+    }
+
+    override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager,
+                                           appWidgetId: Int, newOptions: Bundle) {
+        onUpdateWidget(context, appWidgetId, appWidgetManager)
     }
 
     companion object {
