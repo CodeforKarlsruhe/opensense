@@ -5,16 +5,18 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.widget.RemoteViews
-import de.codefor.karlsruhe.opensense.R
+import android.util.Log
 import android.view.View
+import android.widget.RemoteViews
 import com.androidplot.util.PixelUtils
-import com.androidplot.xy.*
+import com.androidplot.xy.LineAndPointFormatter
+import com.androidplot.xy.SimpleXYSeries
+import com.androidplot.xy.XYGraphWidget
+import com.androidplot.xy.XYPlot
+import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
-import java.util.logging.Logger
-import com.androidplot.xy.LineAndPointFormatter
 
 class PlotWidget : BaseWidget() {
 
@@ -23,10 +25,6 @@ class PlotWidget : BaseWidget() {
     }
 
     companion object {
-
-        val LOG = Logger.getLogger(this::class.java.toString())
-
-
         fun update(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
             val views = RemoteViews(context.packageName, R.layout.plot_widget)
 
@@ -94,7 +92,7 @@ class PlotWidget : BaseWidget() {
 
             plot.layout(0, 0, w, h)
 
-            LOG.info("sensorHistory size: " + sensorHist.size + ", data: " + sensorHist.toString())
+            Log.i("PlotWidget", "sensorHistory size: ${sensorHist.size}, data: $sensorHist")
 
             val history = mutableListOf<Double>()
 

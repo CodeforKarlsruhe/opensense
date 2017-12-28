@@ -2,12 +2,12 @@ package de.codefor.karlsruhe.opensense.widget.onevalue
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
-import java.util.logging.Logger
 
 
 class OneValueWidget : BaseWidget() {
@@ -16,9 +16,6 @@ class OneValueWidget : BaseWidget() {
     }
 
     companion object {
-
-        val LOG = Logger.getLogger(this::class.java.toString())
-
         fun update(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
             val views = RemoteViews(context.packageName, R.layout.one_value_widget)
             //Show progress bar, hide refresh button
@@ -32,7 +29,7 @@ class OneValueWidget : BaseWidget() {
             WidgetHelper.getSenseBox(context, appWidgetId).subscribe({ senseBox ->
                 val sensorIds = WidgetHelper.loadSensorIds(context, appWidgetId)
                 val sensor = senseBox.sensors?.first { (id) -> id == sensorIds.first() }
-                LOG.info(senseBox.toString() + sensorIds.toString() + sensor.toString())
+                Log.i("OneValueWidget", "$senseBox, ${sensor.toString()}")
                 views.apply {
                     //Show refresh button, hide progress bar
                     setViewVisibility(R.id.one_value_widget_refresh_button, View.VISIBLE)

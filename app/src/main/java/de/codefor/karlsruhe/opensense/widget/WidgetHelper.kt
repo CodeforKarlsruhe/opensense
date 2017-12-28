@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
@@ -13,13 +14,9 @@ import de.codefor.karlsruhe.opensense.widget.base.BaseWidgetConfigurationActivit
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.logging.Logger
 import kotlin.reflect.KClass
 
 object WidgetHelper {
-
-    val LOG = Logger.getLogger(this::class.java.toString())
-
     private val PREFS_NAME = "de.codefor.karlsruhe.opensense.widget"
     private val PREF_BOX_ID = "box_id_"
     private val PREF_SENSOR_IDS = "sensor_ids_"
@@ -77,7 +74,7 @@ object WidgetHelper {
         // TODO make configurable, the following line crashes
         //val sensorId = loadSensorIds(context, appWidgetId).first()
         val sensorId = "59c67b5ed67eb50011666dc0"
-        LOG.info("sensor history requested, boxId: " + boxId + ", sensorId: " + sensorId)
+        Log.i("WidgetHelper", "getSensorHistory() boxId: $boxId, sensorId: $sensorId")
         return getSensorHistory(boxId, sensorId)
     }
 

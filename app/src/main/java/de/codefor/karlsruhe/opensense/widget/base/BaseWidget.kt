@@ -4,7 +4,6 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
-import java.util.logging.Logger
 
 /**
  * Implementation of default widget containing a maximum of five sensor data.
