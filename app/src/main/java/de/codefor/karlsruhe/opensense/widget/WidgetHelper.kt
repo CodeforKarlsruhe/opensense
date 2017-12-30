@@ -71,9 +71,9 @@ object WidgetHelper {
 
     internal fun getSensorHistory(context: Context, appWidgetId: Int): Single<List<SensorHistory>> {
         val boxId = loadBoxId(context, appWidgetId)
-        // TODO make configurable, the following line crashes
-        //val sensorId = loadSensorIds(context, appWidgetId).first()
-        val sensorId = "59c67b5ed67eb50011666dc0"
+        // We keep it really simple here and just use the first selected sensor of this widget
+        val sensorId = loadSensorIds(context, appWidgetId).firstOrNull() ?: return Single.just(emptyList())
+
         Log.i("WidgetHelper", "getSensorHistory() boxId: $boxId, sensorId: $sensorId")
         return getSensorHistory(boxId, sensorId)
     }
