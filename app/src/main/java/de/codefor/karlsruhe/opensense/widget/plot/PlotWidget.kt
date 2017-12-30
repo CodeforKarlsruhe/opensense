@@ -52,8 +52,7 @@ class PlotWidget : BaseWidget() {
                             setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                             setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
                             // Remove values, set error text
-                            // TODO a resource error string on it's own for plotwidget?
-                            setTextViewText(R.id.plot_widget_error_text, context.getString(R.string.one_value_error_text))
+                            setTextViewText(R.id.plot_widget_error_text, context.getString(R.string.loading_error_text))
                             setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
                             setViewVisibility(R.id.plot_widget_img, View.GONE)
                     }

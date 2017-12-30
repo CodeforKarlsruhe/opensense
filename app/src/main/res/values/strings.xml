@@ -13,6 +13,7 @@
     <string name="widget_configuration_snackbar_error_invalid_data">Invalid senseBox data</string>
 
     <string name="empty_response">Empty server response</string>
+    <string name="loading_error_text">Error</string>
 
 
     <plurals name="maximumNumberOfSensors">
@@ -23,8 +24,6 @@
     <!-- One Value Widget -->
     <string name="one_value_refresh_image_description">Refresh</string>
     <string name="one_value_configuration_image_description">Configuration</string>
-    <string name="one_value_error_text">Error</string>
-
 
     <!-- Plot Widget -->
     <string name="plot_history_title">History</string>
