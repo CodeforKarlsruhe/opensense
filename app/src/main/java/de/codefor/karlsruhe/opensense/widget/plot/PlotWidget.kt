@@ -64,9 +64,9 @@ class PlotWidget : BaseWidget() {
         }
 
         private fun drawPlot(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, sensorHist: List<SensorHistory>) {
-            val views = RemoteViews(context.getPackageName(), R.layout.plot_widget)
+            val views = RemoteViews(context.packageName, R.layout.plot_widget)
 
-            val plot = XYPlot(context, "Historyplot")
+            val plot = XYPlot(context, context.getString(R.string.plot_history_title))
 
             // TODO show and set x- and y-tics
             // TODO use proper strings depending on selected sensor

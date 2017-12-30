@@ -25,4 +25,8 @@
     <string name="one_value_configuration_image_description">Configuration</string>
     <string name="one_value_error_text">Error</string>
 
+
+    <!-- Plot Widget -->
+    <string name="plot_history_title">History</string>
+
 </resources>

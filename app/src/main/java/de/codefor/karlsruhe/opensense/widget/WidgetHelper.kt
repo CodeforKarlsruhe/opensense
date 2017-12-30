@@ -78,7 +78,7 @@ object WidgetHelper {
         return getSensorHistory(boxId, sensorId)
     }
 
-    internal fun getSensorHistory(boxId: String, sensorId: String): Single<List<SensorHistory>> {
+    private fun getSensorHistory(boxId: String, sensorId: String): Single<List<SensorHistory>> {
         return OpenSenseMapService.getSensorHistory(boxId, sensorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
