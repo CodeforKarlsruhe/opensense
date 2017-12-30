@@ -45,14 +45,19 @@ class PlotWidget : BaseWidget() {
             WidgetHelper.getSensorHistory(context, appWidgetId).subscribe(
                 // onSuccess
                 { sensorHist ->
+                    views.apply {
+                        //Show refresh button, hide progress bar
+                        setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
+                        setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
+                        // TODO: Return box in above call and set box name?
+                    }
                     drawPlot(context, appWidgetId, appWidgetManager, sensorHist)
                 }, {
                     views.apply {
                             // Show refresh button, hide progress bar
                             setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                             setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
-                            // Remove values, set error text
-                            setTextViewText(R.id.plot_widget_error_text, context.getString(R.string.loading_error_text))
+                            // Remove values
                             setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
                             setViewVisibility(R.id.plot_widget_img, View.GONE)
                     }
@@ -72,23 +77,27 @@ class PlotWidget : BaseWidget() {
             plot.setRangeLabel("Temp. in Grad")
             plot.setDomainLabel("Zeit")
 
-            // show the tic labels
-            plot.graph.setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
-            // move the tic labels
-            plot.graph.lineLabelInsets.right = PixelUtils.dpToPix(20f)
-            plot.graph.lineLabelInsets.bottom = PixelUtils.dpToPix(4f)
-            // format the tic labels
-            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.BLACK
-            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = 25f
-            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.BLACK
-            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = 25f
+            val textSize = 20f
 
-            plot.title.labelPaint.textSize = 25f
-            plot.rangeTitle.labelPaint.textSize = 25f
-            plot.domainTitle.labelPaint.textSize = 25f
+            // Configure the graph
+            plot.graph.apply {
+                // show the tic labels
+                setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
+                // move the tic labels
+                lineLabelInsets.right = PixelUtils.dpToPix(20f)
+                lineLabelInsets.bottom = PixelUtils.dpToPix(4f)
+                // format the tic labels
+                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.BLACK
+                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = textSize
+                getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.BLACK
+                getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = textSize
+            }
 
+            // Configure the labels and background
+            plot.title.labelPaint.textSize = textSize
+            plot.rangeTitle.labelPaint.textSize = textSize
+            plot.domainTitle.labelPaint.textSize = textSize
             plot.legend.isVisible = false
-
             plot.setBackgroundColor(Color.TRANSPARENT)
 
             val h = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)

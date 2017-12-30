@@ -21,11 +21,11 @@
         <item quantity="other">Please select a maximum of %1$d sensors</item>
     </plurals>
 
-    <!-- One Value Widget -->
-    <string name="one_value_refresh_image_description">Refresh</string>
-    <string name="one_value_configuration_image_description">Configuration</string>
+    <string name="refresh_image_description">Refresh</string>
+    <string name="configuration_image_description">Configuration</string>
 
     <!-- Plot Widget -->
     <string name="plot_history_title">History</string>
+    <string name="plot_image_description">Sensor history plot</string>
 
 </resources>
