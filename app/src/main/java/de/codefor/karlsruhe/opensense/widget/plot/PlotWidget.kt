@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
+import com.androidplot.ui.HorizontalPositioning
+import com.androidplot.ui.VerticalPositioning
 import com.androidplot.util.PixelUtils
 import com.androidplot.xy.LineAndPointFormatter
 import com.androidplot.xy.SimpleXYSeries
@@ -49,7 +51,9 @@ class PlotWidget : BaseWidget() {
                         //Show refresh button, hide progress bar
                         setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                         setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
-                        // TODO: Return box in above call and set box name?
+                        // TODO: Return box in above call and set box name and sensor name
+                        setTextViewText(R.id.plot_widget_box_name, "sensebox name")
+                        setTextViewText(R.id.plot_widget_sensor_title, "sensor")
                     }
                     drawPlot(context, appWidgetId, appWidgetManager, sensorHist)
                 }, {
@@ -72,9 +76,8 @@ class PlotWidget : BaseWidget() {
 
             val plot = XYPlot(context, context.getString(R.string.plot_history_title))
 
-            // TODO show and set x- and y-tics
             // TODO use proper strings depending on selected sensor
-            plot.setRangeLabel("Temp. in Grad")
+            plot.setRangeLabel("Grad")
             plot.setDomainLabel("Zeit")
 
             val textSize = 20f
@@ -83,19 +86,25 @@ class PlotWidget : BaseWidget() {
             plot.graph.apply {
                 // show the tic labels
                 setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
-                // move the tic labels
-                lineLabelInsets.right = PixelUtils.dpToPix(20f)
-                lineLabelInsets.bottom = PixelUtils.dpToPix(4f)
+                // add space for the labels
+                paddingRight = 60f
+                paddingBottom = 30f
+                // move the tic labels outside (negative)
+                lineLabelInsets.right = PixelUtils.dpToPix(-20f)
+                lineLabelInsets.bottom = PixelUtils.dpToPix(-20f)
                 // format the tic labels
-                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.BLACK
+                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = textSize
-                getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.BLACK
+                getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = textSize
             }
 
             // Configure the labels and background
             plot.title.labelPaint.textSize = textSize
             plot.rangeTitle.labelPaint.textSize = textSize
+            plot.rangeTitle.position(
+                    20f, HorizontalPositioning.ABSOLUTE_FROM_RIGHT,
+            70f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
             plot.domainTitle.labelPaint.textSize = textSize
             plot.legend.isVisible = false
             plot.setBackgroundColor(Color.TRANSPARENT)

@@ -48,18 +48,19 @@
         android:contentDescription="@string/refresh_image_description"
         android:src="@drawable/widget_refresh" />
 
+
+
     <ImageView
         android:id="@+id/plot_widget_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/plot_widget_configuration_button"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:adjustViewBounds="true"
-        android:layout_marginTop="@dimen/widget_margin"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
         android:background="@android:drawable/alert_dark_frame"
         android:contentDescription="@string/plot_image_description"
-        android:cropToPadding="true" />
+         />
 
     <TextView
         android:id="@+id/plot_widget_error_text"
@@ -75,5 +76,18 @@
         android:textSize="@dimen/widget_text_size_normal"
         android:textStyle="bold"
         tools:text="" />
+
+    <TextView
+        android:id="@+id/plot_widget_sensor_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/colorWidgetText"
+        android:textSize="@dimen/widget_text_size_small"
+        tools:text="Sensorname" />
 
 </RelativeLayout>
