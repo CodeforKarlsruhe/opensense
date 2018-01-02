@@ -17,6 +17,8 @@ import com.androidplot.xy.SimpleXYSeries
 import com.androidplot.xy.XYGraphWidget
 import com.androidplot.xy.XYPlot
 import de.codefor.karlsruhe.opensense.R
+import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
+import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
@@ -44,18 +46,20 @@ class PlotWidget : BaseWidget() {
             }
             appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
 
-            WidgetHelper.getSensorHistory(context, appWidgetId).subscribe(
+            WidgetHelper.getSenseBoxAndSensorData(context, appWidgetId).subscribe(
                 // onSuccess
-                { sensorHist ->
+                { (senseBox, sensorData) ->
+                    // Kotlin doesn't support nested destructuring, so we do it here
+                    val (sensor, sensorHist) = sensorData
                     views.apply {
                         //Show refresh button, hide progress bar
                         setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                         setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
-                        // TODO: Return box in above call and set box name and sensor name
-                        setTextViewText(R.id.plot_widget_box_name, "sensebox name")
-                        setTextViewText(R.id.plot_widget_sensor_title, "sensor")
+                        setTextViewText(R.id.plot_widget_box_name, senseBox.name)
+                        setTextViewText(R.id.plot_widget_sensor_title, sensor.title)
                     }
-                    drawPlot(context, appWidgetId, appWidgetManager, sensorHist)
+                    appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
+                    drawPlot(context, appWidgetId, appWidgetManager, senseBox, sensor, sensorHist)
                 }, {
                     views.apply {
                             // Show refresh button, hide progress bar
@@ -63,7 +67,7 @@ class PlotWidget : BaseWidget() {
                             setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
                             // Remove values
                             setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
-                            setViewVisibility(R.id.plot_widget_img, View.GONE)
+                            //setViewVisibility(R.id.plot_widget_img, View.GONE)
                     }
                     setOnClickPendingIntents(context, appWidgetId, views)
                     appWidgetManager.updateAppWidget(appWidgetId, views)
@@ -71,7 +75,8 @@ class PlotWidget : BaseWidget() {
             )
         }
 
-        private fun drawPlot(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager, sensorHist: List<SensorHistory>) {
+        private fun drawPlot(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager,
+                             senseBox: SenseBox, sensor: Sensor, sensorHist: List<SensorHistory>) {
             val views = RemoteViews(context.packageName, R.layout.plot_widget)
 
             val plot = XYPlot(context, context.getString(R.string.plot_history_title))

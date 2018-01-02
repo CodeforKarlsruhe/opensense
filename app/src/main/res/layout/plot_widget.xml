@@ -66,6 +66,7 @@
         android:id="@+id/plot_widget_error_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/plot_widget_configuration_button"
         android:layout_centerInParent="true"
         android:ellipsize="end"
         android:gravity="center"

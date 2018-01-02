@@ -3,12 +3,15 @@ package de.codefor.karlsruhe.opensense.data
 import android.util.Log
 import de.codefor.karlsruhe.opensense.data.boxes.BoxesApi
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
+import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+typealias SensorData = Pair<Sensor, List<SensorHistory>>
 
 object OpenSenseMapService {
     private val boxesApi: BoxesApi
@@ -31,8 +34,13 @@ object OpenSenseMapService {
         return boxesApi.getAllBoxes()
     }
 
-    fun getSensorHistory(boxId: String, sensorId: String): Single<List<SensorHistory>> {
-        Log.i("OpenSenseMapService", "getSensorHistory() boxId: $boxId, sensorId: $sensorId")
-        return boxesApi.getSensorHistory(boxId, sensorId)
+    fun getSenseBoxAndSensorData(boxId: String, sensorId: String): Single<Pair<SenseBox, SensorData>> {
+        Log.i("OpenSenseMapService", "getSenseBoxAndSensorData() boxId: $boxId, sensorId: $sensorId")
+        return boxesApi.getBox(boxId).zipWith(boxesApi.getSensorHistory(boxId, sensorId),
+                BiFunction<SenseBox, List<SensorHistory>, Pair<SenseBox, SensorData>> { senseBox, sensorHistory ->
+                    val sensor = senseBox.sensors?.first { it.id == sensorId }
+                            ?: throw IllegalStateException("The box $boxId doesn't contain the sensor id $sensorId")
+                    Pair(senseBox, SensorData(sensor, sensorHistory))
+                })
     }
 }

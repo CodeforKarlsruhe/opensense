@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
+import de.codefor.karlsruhe.opensense.data.SensorData
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
-import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidgetConfigurationActivity
 import io.reactivex.Single
@@ -69,17 +69,13 @@ object WidgetHelper {
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    internal fun getSensorHistory(context: Context, appWidgetId: Int): Single<List<SensorHistory>> {
+    internal fun getSenseBoxAndSensorData(context: Context, appWidgetId: Int): Single<Pair<SenseBox, SensorData>> {
         val boxId = loadBoxId(context, appWidgetId)
         // We keep it really simple here and just use the first selected sensor of this widget
-        val sensorId = loadSensorIds(context, appWidgetId).firstOrNull() ?: return Single.just(emptyList())
+        val sensorId = loadSensorIds(context, appWidgetId).firstOrNull() ?: return Single.error(IllegalStateException("No sensor id stored"))
 
-        Log.i("WidgetHelper", "getSensorHistory() boxId: $boxId, sensorId: $sensorId")
-        return getSensorHistory(boxId, sensorId)
-    }
-
-    private fun getSensorHistory(boxId: String, sensorId: String): Single<List<SensorHistory>> {
-        return OpenSenseMapService.getSensorHistory(boxId, sensorId)
+        Log.i("WidgetHelper", "getSenseBoxAndSensorData() boxId: $boxId, sensorId: $sensorId")
+        return OpenSenseMapService.getSenseBoxAndSensorData(boxId, sensorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
