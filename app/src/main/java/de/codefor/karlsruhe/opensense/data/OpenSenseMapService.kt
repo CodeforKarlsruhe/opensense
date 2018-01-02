@@ -1,12 +1,14 @@
 package de.codefor.karlsruhe.opensense.data
 
 import android.util.Log
+import com.squareup.moshi.Moshi
 import de.codefor.karlsruhe.opensense.data.boxes.BoxesApi
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import org.joda.time.DateTime
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -17,10 +19,12 @@ object OpenSenseMapService {
     private val boxesApi: BoxesApi
 
     init {
+        val moshi = Moshi.Builder().add(DateTime::class.java, DateTimeAdapter()).build()
+
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.opensensemap.org/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .build()
 
         boxesApi = retrofit.create(BoxesApi::class.java)
