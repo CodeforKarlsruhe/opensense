@@ -81,8 +81,8 @@ class PlotWidget : BaseWidget() {
 
             val plot = XYPlot(context, context.getString(R.string.plot_history_title))
 
-            // TODO use proper strings depending on selected sensor
-            plot.setRangeLabel("Grad")
+            plot.setRangeLabel(sensor.unit)
+            // TODO different languages?
             plot.setDomainLabel("Zeit")
 
             val textSize = 20f
@@ -137,9 +137,9 @@ class PlotWidget : BaseWidget() {
             // TODO probably better to use TimeSeriesPlot?
             val series = SimpleXYSeries(history,
                     SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
-                    "TODO string for legend (set invisible atm)")
+                    "") // legend title is empty (it's invisible anyway)
             // TODO use the xml format here?
-            val seriesFormat = LineAndPointFormatter(Color.BLACK, Color.BLACK, Color.TRANSPARENT, null)
+            val seriesFormat = LineAndPointFormatter(Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT, null)
             // add the series to the xyplot:
             plot.addSeries(series, seriesFormat)
 
