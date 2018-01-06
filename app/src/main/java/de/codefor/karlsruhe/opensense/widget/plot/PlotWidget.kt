@@ -16,12 +16,18 @@ import com.androidplot.xy.LineAndPointFormatter
 import com.androidplot.xy.SimpleXYSeries
 import com.androidplot.xy.XYGraphWidget
 import com.androidplot.xy.XYPlot
+import com.androidplot.xy.StepMode
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import java.text.FieldPosition
+import java.text.Format
+import java.text.ParsePosition
 
 class PlotWidget : BaseWidget() {
 
@@ -79,7 +85,7 @@ class PlotWidget : BaseWidget() {
                              senseBox: SenseBox, sensor: Sensor, sensorHist: List<SensorHistory>) {
             val views = RemoteViews(context.packageName, R.layout.plot_widget)
 
-            val plot = XYPlot(context, context.getString(R.string.plot_history_title))
+            val plot = XYPlot(context, "") // no title for the plot, it should be self-evident
 
             plot.setRangeLabel(sensor.unit)
             // TODO different languages?
@@ -92,11 +98,13 @@ class PlotWidget : BaseWidget() {
                 // show the tic labels
                 setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
                 // add space for the labels
+                paddingTop = 10f
                 paddingRight = 60f
                 paddingBottom = 30f
+                paddingLeft = 20f
                 // move the tic labels outside (negative)
                 lineLabelInsets.right = PixelUtils.dpToPix(-20f)
-                lineLabelInsets.bottom = PixelUtils.dpToPix(-20f)
+                lineLabelInsets.bottom = PixelUtils.dpToPix(-22f)
                 // format the tic labels
                 getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = textSize
@@ -109,7 +117,7 @@ class PlotWidget : BaseWidget() {
             plot.rangeTitle.labelPaint.textSize = textSize
             plot.rangeTitle.position(
                     20f, HorizontalPositioning.ABSOLUTE_FROM_RIGHT,
-            70f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
+                    70f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
             plot.domainTitle.labelPaint.textSize = textSize
             plot.legend.isVisible = false
             plot.setBackgroundColor(Color.TRANSPARENT)
@@ -122,26 +130,55 @@ class PlotWidget : BaseWidget() {
 
             Log.i("PlotWidget", "sensorHistory size: ${sensorHist.size}, data: $sensorHist")
 
-            val history = mutableListOf<Double>()
+            val dates = mutableListOf<DateTime>()
+            val values = mutableListOf<Double>()
 
             for (dataPoint in sensorHist) {
-                history.add(dataPoint.value ?: Double.NaN)
-                // TODO add timestamps as X axis info
-                // needs a proper handling of timestamps earlier (in OpenSenseMapService)
-                // history.add(dataPoint.createdAt.)
+                dates.add(dataPoint.createdAt ?: DateTime.now())
+                values.add(dataPoint.value ?: Double.NaN)
             }
+
             // in plots, usually time increases from left to right
             // so we need to reverse the data which has newest first
-            history.reverse()
+            dates.reverse()
+            values.reverse()
 
-            // TODO probably better to use TimeSeriesPlot?
-            val series = SimpleXYSeries(history,
+            val series = SimpleXYSeries(values,
                     SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
                     "") // legend title is empty (it's invisible anyway)
-            // TODO use the xml format here?
+
+            // TODO use xml format for formatting (easier for user configuration?)?
             val seriesFormat = LineAndPointFormatter(Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT, null)
+
             // add the series to the xyplot:
             plot.addSeries(series, seriesFormat)
+
+            // draw 6 time ticks:
+            plot.setDomainStep(StepMode.SUBDIVIDE, 6.0)
+
+            // format the DateTime
+            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format =
+                object : Format() {
+
+                    override fun format(obj: Any, toAppendTo: StringBuffer, pos: FieldPosition): StringBuffer {
+                        val index = (obj as Number).toInt()
+
+                        var dateFormat = DateTimeFormat.forPattern("d. M., HH:mm")
+
+                        // don't show full date on first and last tick
+                        if (index == 0 || index == dates.lastIndex) {
+                            dateFormat = DateTimeFormat.forPattern("HH:mm")
+                        }
+
+                        val date = dates[index]
+
+                        return toAppendTo.append(date.toString(dateFormat))
+                    }
+
+                    override fun parseObject(source: String, pos: ParsePosition): Any? {
+                        return null
+                    }
+                }
 
             val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
             plot.draw(Canvas(bitmap))

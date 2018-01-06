@@ -25,7 +25,6 @@
     <string name="configuration_image_description">Configuration</string>
 
     <!-- Plot Widget -->
-    <string name="plot_history_title">History</string>
     <string name="plot_image_description">Sensor history plot</string>
 
 </resources>
