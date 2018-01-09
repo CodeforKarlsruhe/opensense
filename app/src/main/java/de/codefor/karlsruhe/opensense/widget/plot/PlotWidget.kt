@@ -6,17 +6,12 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import com.androidplot.ui.HorizontalPositioning
 import com.androidplot.ui.VerticalPositioning
 import com.androidplot.util.PixelUtils
-import com.androidplot.xy.LineAndPointFormatter
-import com.androidplot.xy.SimpleXYSeries
-import com.androidplot.xy.XYGraphWidget
-import com.androidplot.xy.XYPlot
-import com.androidplot.xy.StepMode
+import com.androidplot.xy.*
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
@@ -41,6 +36,11 @@ class PlotWidget : BaseWidget() {
     }
 
     companion object {
+        private val dateTimeFormatter = DateTimeFormat.forPattern("HH:mm")
+        // Use a different formatter without full the date for the first and last tick
+        private val dateTimeFormatterEdges = DateTimeFormat.forPattern("d. M., HH:mm")
+
+
         fun update(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
             val views = RemoteViews(context.packageName, R.layout.plot_widget)
 
@@ -67,23 +67,43 @@ class PlotWidget : BaseWidget() {
                     appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
                     drawPlot(context, appWidgetId, appWidgetManager, senseBox, sensor, sensorHist)
                 }, {
-                    views.apply {
-                            // Show refresh button, hide progress bar
-                            setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
-                            setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
-                            // Remove values
-                            setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
-                            //setViewVisibility(R.id.plot_widget_img, View.GONE)
-                    }
-                    setOnClickPendingIntents(context, appWidgetId, views)
-                    appWidgetManager.updateAppWidget(appWidgetId, views)
+                    showErrorScreen(context, appWidgetId, appWidgetManager, views)
                 }
             )
+        }
+
+        private fun showErrorScreen(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager,
+                                    views: RemoteViews) {
+            views.apply {
+                // Show refresh button, hide progress bar
+                setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
+                setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
+                // Remove values
+                setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
+                //setViewVisibility(R.id.plot_widget_img, View.GONE)
+            }
+            setOnClickPendingIntents(context, appWidgetId, views)
+            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
 
         private fun drawPlot(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager,
                              senseBox: SenseBox, sensor: Sensor, sensorHist: List<SensorHistory>) {
             val views = RemoteViews(context.packageName, R.layout.plot_widget)
+
+            val dates = mutableListOf<DateTime>()
+            val values = mutableListOf<Double>()
+
+            // The time in a plot usually increases from left to right.
+            // The provided data starts with the newest first and we have to reverse it.
+            sensorHist.reversed().forEach { (value, _, createdAt) ->
+                dates.add(createdAt ?: DateTime.now())
+                values.add(value ?: Double.NaN)
+            }
+
+            if (dates.isEmpty()) {
+                showErrorScreen(context, appWidgetId, appWidgetManager, views)
+                return
+            }
 
             val plot = XYPlot(context, "") // no title for the plot, it should be self-evident
 
@@ -127,21 +147,6 @@ class PlotWidget : BaseWidget() {
 
             plot.layout(0, 0, w, h)
 
-            Log.i("PlotWidget", "sensorHistory size: ${sensorHist.size}, data: $sensorHist")
-
-            val dates = mutableListOf<DateTime>()
-            val values = mutableListOf<Double>()
-
-            for (dataPoint in sensorHist) {
-                dates.add(dataPoint.createdAt ?: DateTime.now())
-                values.add(dataPoint.value ?: Double.NaN)
-            }
-
-            // in plots, usually time increases from left to right
-            // so we need to reverse the data which has newest first
-            dates.reverse()
-            values.reverse()
-
             val series = SimpleXYSeries(values,
                     SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
                     "") // legend title is empty (it's invisible anyway)
@@ -161,17 +166,14 @@ class PlotWidget : BaseWidget() {
 
                     override fun format(obj: Any, toAppendTo: StringBuffer, pos: FieldPosition): StringBuffer {
                         val index = (obj as Number).toInt()
-
-                        var dateFormat = DateTimeFormat.forPattern("d. M., HH:mm")
-
-                        // don't show full date on first and last tick
-                        if (index == 0 || index == dates.lastIndex) {
-                            dateFormat = DateTimeFormat.forPattern("HH:mm")
-                        }
+                        if (index < 0 || index >= dates.size) return toAppendTo
 
                         val date = dates[index]
 
-                        return toAppendTo.append(date.toString(dateFormat))
+                        return when (index) {
+                            0, dates.lastIndex -> toAppendTo.append(date.toString(dateTimeFormatterEdges))
+                            else -> toAppendTo.append(date.toString(dateTimeFormatter))
+                        }
                     }
 
                     override fun parseObject(source: String, pos: ParsePosition): Any? {
