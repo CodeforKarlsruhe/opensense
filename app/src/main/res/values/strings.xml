@@ -26,5 +26,5 @@
 
     <!-- Plot Widget -->
     <string name="plot_image_description">Sensor history plot</string>
-
+    <string name="plot_graph_time">Time</string>
 </resources>

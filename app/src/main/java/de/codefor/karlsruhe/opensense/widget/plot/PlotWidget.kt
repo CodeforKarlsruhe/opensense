@@ -88,8 +88,7 @@ class PlotWidget : BaseWidget() {
             val plot = XYPlot(context, "") // no title for the plot, it should be self-evident
 
             plot.setRangeLabel(sensor.unit)
-            // TODO different languages?
-            plot.setDomainLabel("Zeit")
+            plot.setDomainLabel(context.getString(R.string.plot_graph_time))
 
             val textSize = 20f
 
