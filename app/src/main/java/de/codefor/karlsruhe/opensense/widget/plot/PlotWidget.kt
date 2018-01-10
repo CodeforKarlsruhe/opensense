@@ -36,9 +36,9 @@ class PlotWidget : BaseWidget() {
     }
 
     companion object {
-        private val dateTimeFormatter = DateTimeFormat.forPattern("HH:mm")
+        private val dateTimeFormatter = DateTimeFormat.forPattern("d. M., HH:mm")
         // Use a different formatter without full the date for the first and last tick
-        private val dateTimeFormatterEdges = DateTimeFormat.forPattern("d. M., HH:mm")
+        private val dateTimeFormatterEdges = DateTimeFormat.forPattern("HH:mm")
 
 
         fun update(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
