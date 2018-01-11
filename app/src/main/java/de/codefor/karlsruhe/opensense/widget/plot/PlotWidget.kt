@@ -24,6 +24,7 @@ import java.text.FieldPosition
 import java.text.Format
 import java.text.ParsePosition
 
+
 class PlotWidget : BaseWidget() {
 
     override fun onUpdateWidget(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
@@ -100,70 +101,45 @@ class PlotWidget : BaseWidget() {
                 values.add(value ?: Double.NaN)
             }
 
-            if (dates.isEmpty()) {
+            if (dates.isEmpty() || values.isEmpty()) {
                 showErrorScreen(context, appWidgetId, appWidgetManager, views)
                 return
             }
 
             val plot = XYPlot(context, "") // no title for the plot, it should be self-evident
+            plot.apply {
+                setRangeLabel(sensor.unit)
+                setRangeStep(StepMode.SUBDIVIDE, 4.0)
+                setDomainLabel(context.getString(R.string.plot_graph_time))
+                setDomainStep(StepMode.SUBDIVIDE, 3.0)
+                setBackgroundColor(Color.TRANSPARENT)
+            }
 
-            plot.setRangeLabel(sensor.unit)
-            plot.setDomainLabel(context.getString(R.string.plot_graph_time))
 
-            val textSize = 20f
+            val textSize = PixelUtils.spToPix(7f)
 
             // Configure the graph
             plot.graph.apply {
-                // show the tic labels
-                setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
+                // show the tick labels
+                setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM)
+
                 // add space for the labels
-                paddingTop = 10f
-                paddingRight = 60f
-                paddingBottom = 30f
-                paddingLeft = 20f
-                // move the tic labels outside (negative)
-                lineLabelInsets.right = PixelUtils.dpToPix(-20f)
-                lineLabelInsets.bottom = PixelUtils.dpToPix(-22f)
-                // format the tic labels
-                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.WHITE
-                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = textSize
+                marginLeft = PixelUtils.dpToPix(24f)
+                marginTop = PixelUtils.dpToPix(8f)
+                marginRight = PixelUtils.dpToPix(12f)
+                marginBottom = PixelUtils.dpToPix(16f)
+
+                lineLabelInsets.left = PixelUtils.dpToPix(-15f)
+                lineLabelInsets.bottom = PixelUtils.dpToPix(-8f)
+
+                // format the labels
+                getLineLabelStyle(XYGraphWidget.Edge.LEFT).paint.color = Color.WHITE
+                getLineLabelStyle(XYGraphWidget.Edge.LEFT).paint.textSize = textSize
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = textSize
-            }
 
-            // Configure the labels and background
-            plot.title.labelPaint.textSize = textSize
-            plot.rangeTitle.labelPaint.textSize = textSize
-            plot.rangeTitle.position(
-                    20f, HorizontalPositioning.ABSOLUTE_FROM_RIGHT,
-                    70f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
-            plot.domainTitle.labelPaint.textSize = textSize
-            plot.legend.isVisible = false
-            plot.setBackgroundColor(Color.TRANSPARENT)
-
-            val h = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
-            val w = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
-            plot.setPlotMargins(10f, 10f, 10f, 10f)
-
-            plot.layout(0, 0, w, h)
-
-            val series = SimpleXYSeries(values,
-                    SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
-                    "") // legend title is empty (it's invisible anyway)
-
-            // TODO use xml format for formatting (easier for user configuration?)?
-            val seriesFormat = LineAndPointFormatter(Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT, null)
-
-            // add the series to the xyplot:
-            plot.addSeries(series, seriesFormat)
-
-            // draw 6 time ticks:
-            plot.setDomainStep(StepMode.SUBDIVIDE, 6.0)
-
-            // format the DateTime
-            plot.graph.getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format =
-                object : Format() {
-
+                // format the DateTime
+                getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
                     override fun format(obj: Any, toAppendTo: StringBuffer, pos: FieldPosition): StringBuffer {
                         val index = (obj as Number).toInt()
                         if (index < 0 || index >= dates.size) return toAppendTo
@@ -180,6 +156,28 @@ class PlotWidget : BaseWidget() {
                         return null
                     }
                 }
+            }
+
+            // Format the title (time and unit)
+            plot.rangeTitle.labelPaint.textSize = textSize
+            plot.rangeTitle.position(
+                    25f, HorizontalPositioning.ABSOLUTE_FROM_LEFT,
+                    -10f, VerticalPositioning.ABSOLUTE_FROM_CENTER)
+            plot.domainTitle.labelPaint.textSize = textSize
+            plot.domainTitle.position(
+                    0f, HorizontalPositioning.ABSOLUTE_FROM_CENTER,
+                    25f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
+            plot.legend.isVisible = false
+
+            val h = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
+            val w = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+            plot.layout(0, 0, w, h)
+
+            val series = SimpleXYSeries(values, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "")
+            val seriesFormat = LineAndPointFormatter(Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT, null)
+
+            // add the series to the xyplot:
+            plot.addSeries(series, seriesFormat)
 
             val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
             plot.draw(Canvas(bitmap))
