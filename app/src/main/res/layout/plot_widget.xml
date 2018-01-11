@@ -47,20 +47,15 @@
         android:layout_alignParentTop="true"
         android:contentDescription="@string/refresh_image_description"
         android:src="@drawable/widget_refresh" />
-
-
-
+    
     <ImageView
         android:id="@+id/plot_widget_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/plot_widget_configuration_button"
         android:layout_centerInParent="true"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:background="@android:drawable/alert_dark_frame"
         android:contentDescription="@string/plot_image_description"
-         />
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/plot_widget_error_text"
