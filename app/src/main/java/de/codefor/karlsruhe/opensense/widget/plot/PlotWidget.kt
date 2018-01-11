@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
 import com.androidplot.ui.HorizontalPositioning
+import com.androidplot.ui.Size
 import com.androidplot.ui.VerticalPositioning
 import com.androidplot.util.PixelUtils
 import com.androidplot.xy.*
@@ -124,10 +125,11 @@ class PlotWidget : BaseWidget() {
                 setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM)
 
                 // add space for the labels
-                marginLeft = PixelUtils.dpToPix(24f)
+                size = Size.FILL
+                marginLeft = PixelUtils.dpToPix(32f)
                 marginTop = PixelUtils.dpToPix(8f)
                 marginRight = PixelUtils.dpToPix(12f)
-                marginBottom = PixelUtils.dpToPix(16f)
+                marginBottom = PixelUtils.dpToPix(24f)
 
                 lineLabelInsets.left = PixelUtils.dpToPix(-15f)
                 lineLabelInsets.bottom = PixelUtils.dpToPix(-8f)
@@ -162,16 +164,17 @@ class PlotWidget : BaseWidget() {
             plot.rangeTitle.labelPaint.textSize = textSize
             plot.rangeTitle.position(
                     25f, HorizontalPositioning.ABSOLUTE_FROM_LEFT,
-                    -10f, VerticalPositioning.ABSOLUTE_FROM_CENTER)
+                    30f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
             plot.domainTitle.labelPaint.textSize = textSize
             plot.domainTitle.position(
                     0f, HorizontalPositioning.ABSOLUTE_FROM_CENTER,
                     25f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
             plot.legend.isVisible = false
 
-            val h = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
-            val w = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
-            plot.layout(0, 0, w, h)
+            val widgetWidth = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+            val widgetHeight = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
+            plot.measure(widgetWidth, widgetHeight)
+            plot.layout(0, 0, widgetWidth, widgetHeight)
 
             val series = SimpleXYSeries(values, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "")
             val seriesFormat = LineAndPointFormatter(Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT, null)
@@ -179,7 +182,7 @@ class PlotWidget : BaseWidget() {
             // add the series to the xyplot:
             plot.addSeries(series, seriesFormat)
 
-            val bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            val bitmap = Bitmap.createBitmap(widgetWidth, widgetHeight, Bitmap.Config.ARGB_8888)
             plot.draw(Canvas(bitmap))
             views.setImageViewBitmap(R.id.plot_widget_img, bitmap)
 
