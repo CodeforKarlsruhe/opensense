@@ -44,7 +44,7 @@ dependencies {
         transitive=true
     }
 
-    implementation "com.androidplot:androidplot-core:1.5.1"
+    implementation "com.androidplot:androidplot-core:1.5.3"
 
     testImplementation 'junit:junit:4.12'
 
