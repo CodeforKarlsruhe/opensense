@@ -67,7 +67,7 @@ class PlotWidget : BaseWidget() {
                         setTextViewText(R.id.plot_widget_sensor_title, sensor.title)
                     }
                     appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
-                    drawPlot(context, appWidgetId, appWidgetManager, senseBox, sensor, sensorHist)
+                    drawPlot(context, appWidgetId, appWidgetManager, sensor, sensorHist)
                 }, {
                     showErrorScreen(context, appWidgetId, appWidgetManager, views)
                 }
@@ -89,7 +89,7 @@ class PlotWidget : BaseWidget() {
         }
 
         private fun drawPlot(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager,
-                             senseBox: SenseBox, sensor: Sensor, sensorHist: List<SensorHistory>) {
+                             sensor: Sensor, sensorHist: List<SensorHistory>) {
             val views = RemoteViews(context.packageName, R.layout.plot_widget)
 
             val dates = mutableListOf<DateTime>()
