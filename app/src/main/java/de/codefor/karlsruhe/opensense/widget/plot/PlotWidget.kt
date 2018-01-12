@@ -82,7 +82,7 @@ class PlotWidget : BaseWidget() {
                 setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
                 // Remove values
                 setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
-                //setViewVisibility(R.id.plot_widget_img, View.GONE)
+                setViewVisibility(R.id.plot_widget_img, View.GONE)
             }
             setOnClickPendingIntents(context, appWidgetId, views)
             appWidgetManager.updateAppWidget(appWidgetId, views)
