@@ -1,6 +1,5 @@
 package de.codefor.karlsruhe.opensense.data
 
-import android.util.Log
 import com.squareup.moshi.Moshi
 import de.codefor.karlsruhe.opensense.data.boxes.BoxesApi
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
@@ -39,7 +38,6 @@ object OpenSenseMapService {
     }
 
     fun getSenseBoxAndSensorData(boxId: String, sensorId: String): Single<Pair<SenseBox, SensorData>> {
-        Log.i("OpenSenseMapService", "getSenseBoxAndSensorData() boxId: $boxId, sensorId: $sensorId")
         return boxesApi.getBox(boxId).zipWith(boxesApi.getSensorHistory(boxId, sensorId),
                 BiFunction<SenseBox, List<SensorHistory>, Pair<SenseBox, SensorData>> { senseBox, sensorHistory ->
                     val sensor = senseBox.sensors?.first { it.id == sensorId }

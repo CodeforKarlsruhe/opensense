@@ -14,7 +14,6 @@ import com.androidplot.ui.VerticalPositioning
 import com.androidplot.util.PixelUtils
 import com.androidplot.xy.*
 import de.codefor.karlsruhe.opensense.R
-import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import de.codefor.karlsruhe.opensense.data.boxes.model.SensorHistory
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
@@ -27,7 +26,6 @@ import java.text.ParsePosition
 
 
 class PlotWidget : BaseWidget() {
-
     override fun onUpdateWidget(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
         update(context, appWidgetId, appWidgetManager)
     }

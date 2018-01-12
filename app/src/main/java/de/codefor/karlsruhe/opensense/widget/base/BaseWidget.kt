@@ -10,7 +10,6 @@ import de.codefor.karlsruhe.opensense.widget.WidgetHelper
  * The configuration is implemented in [BaseWidgetConfigurationActivity] and its child classes.
  */
 abstract class BaseWidget : AppWidgetProvider() {
-
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             onUpdateWidget(context, appWidgetId, appWidgetManager)
