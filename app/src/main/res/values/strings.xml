@@ -3,9 +3,6 @@
 
 
     <!-- Widget configuration -->
-    <string name="widget_configuration_title">Select senseBox</string>
-    <string name="widget_configuration_box_id">senseBox Id</string>
-    <string name="widget_configuration_select">Select</string>
     <string name="widget_configuration_current_value">%1$s %2$s</string>
     <string name="widget_configuration_save">Save</string>
     <string name="widget_configuration_snackbar_empty_list">Please select at least one sensor</string>
