@@ -126,21 +126,21 @@ class PlotWidget : BaseWidget() {
             // Configure the graph
             plot.graph.apply {
                 // show the tick labels
-                setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM)
+                setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
 
                 // add space for the labels
                 size = Size.FILL
-                marginLeft = PixelUtils.dpToPix(32f)
+                marginLeft = PixelUtils.dpToPix(12f)
                 marginTop = PixelUtils.dpToPix(8f)
-                marginRight = PixelUtils.dpToPix(12f)
+                marginRight = PixelUtils.dpToPix(32f)
                 marginBottom = PixelUtils.dpToPix(24f)
 
-                lineLabelInsets.left = PixelUtils.dpToPix(-15f)
+                lineLabelInsets.right = PixelUtils.dpToPix(-15f)
                 lineLabelInsets.bottom = PixelUtils.dpToPix(-8f)
 
                 // format the labels
-                getLineLabelStyle(XYGraphWidget.Edge.LEFT).paint.color = Color.WHITE
-                getLineLabelStyle(XYGraphWidget.Edge.LEFT).paint.textSize = textSize
+                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.WHITE
+                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = textSize
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = textSize
 
@@ -168,7 +168,7 @@ class PlotWidget : BaseWidget() {
             // Format the title (time and unit)
             plot.rangeTitle.labelPaint.textSize = textSize
             plot.rangeTitle.position(
-                    25f, HorizontalPositioning.ABSOLUTE_FROM_LEFT,
+                    25f, HorizontalPositioning.ABSOLUTE_FROM_RIGHT,
                     30f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
             plot.domainTitle.labelPaint.textSize = textSize
             plot.domainTitle.position(
