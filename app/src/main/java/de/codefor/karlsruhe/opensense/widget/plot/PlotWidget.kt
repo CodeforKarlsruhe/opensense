@@ -121,7 +121,7 @@ class PlotWidget : BaseWidget() {
             }
 
 
-            val textSize = PixelUtils.spToPix(7f)
+            val textSize = context.resources.getDimension(R.dimen.widget_text_size_small)
 
             // Configure the graph
             plot.graph.apply {
