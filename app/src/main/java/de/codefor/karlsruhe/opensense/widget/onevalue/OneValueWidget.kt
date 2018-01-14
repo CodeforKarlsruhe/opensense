@@ -47,7 +47,7 @@ class OneValueWidget : BaseWidget() {
                     setViewVisibility(R.id.one_value_widget_progress_bar, View.GONE)
                     //Remove values, set error text
                     setTextViewText(R.id.one_value_widget_box_name, "")
-                    setTextViewText(R.id.one_value_widget_sensor_data, context.getString(R.string.one_value_error_text))
+                    setTextViewText(R.id.one_value_widget_sensor_data, context.getString(R.string.loading_error_text))
                     setTextViewText(R.id.one_value_widget_sensor_title, "")
                 }
 
