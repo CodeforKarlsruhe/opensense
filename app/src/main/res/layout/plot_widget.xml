@@ -54,6 +54,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/plot_widget_configuration_button"
         android:layout_centerInParent="true"
+        android:paddingBottom="16dp"
         android:contentDescription="@string/plot_image_description"
         android:gravity="center" />
 

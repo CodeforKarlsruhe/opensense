@@ -62,6 +62,7 @@ class PlotWidget : BaseWidget() {
                         setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                         setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
                         setTextViewText(R.id.plot_widget_box_name, senseBox.name)
+                        setViewVisibility(R.id.plot_widget_sensor_title, View.VISIBLE)
                         setTextViewText(R.id.plot_widget_sensor_title, sensor.title)
                     }
                     appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
@@ -79,9 +80,10 @@ class PlotWidget : BaseWidget() {
                 setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                 setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
                 setTextViewText(R.id.plot_widget_error_text, context.getString(errorId))
-                // Remove values
                 setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
+                // Hide widget image and sensor title
                 setViewVisibility(R.id.plot_widget_img, View.GONE)
+                setViewVisibility(R.id.plot_widget_sensor_title, View.GONE)
             }
             setOnClickPendingIntents(context, appWidgetId, views)
             appWidgetManager.updateAppWidget(appWidgetId, views)
