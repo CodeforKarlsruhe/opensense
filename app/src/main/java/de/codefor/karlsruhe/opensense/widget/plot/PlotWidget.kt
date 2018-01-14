@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
@@ -132,19 +133,20 @@ class PlotWidget : BaseWidget() {
 
                 // add space for the labels
                 size = Size.FILL
-                marginLeft = PixelUtils.dpToPix(12f)
+                marginLeft = PixelUtils.dpToPix(8f)
                 marginTop = PixelUtils.dpToPix(8f)
                 marginRight = PixelUtils.dpToPix(32f)
                 marginBottom = PixelUtils.dpToPix(24f)
 
                 lineLabelInsets.right = PixelUtils.dpToPix(-15f)
-                lineLabelInsets.bottom = PixelUtils.dpToPix(-8f)
+                lineLabelInsets.bottom = PixelUtils.dpToPix(-10f)
 
                 // format the labels
                 getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = textSize
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = textSize
+                getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textAlign = Paint.Align.LEFT
 
                 // format the DateTime
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
@@ -175,7 +177,7 @@ class PlotWidget : BaseWidget() {
             plot.domainTitle.labelPaint.textSize = textSize
             plot.domainTitle.position(
                     0f, HorizontalPositioning.ABSOLUTE_FROM_CENTER,
-                    25f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
+                    20f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
             plot.legend.isVisible = false
 
             val widgetWidth = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
