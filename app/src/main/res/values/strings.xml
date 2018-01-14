@@ -12,9 +12,9 @@
     <string name="widget_configuration_snackbar_error_loading">Error fetching the senseBox data</string>
     <string name="widget_configuration_snackbar_error_invalid_data">Invalid senseBox data</string>
 
-    <string name="empty_response">Empty server response</string>
-    <string name="loading_error_text">Error</string>
-
+    <!-- Loading errors -->
+    <string name="loading_error_text_generic">An error occurred</string>
+    <string name="loading_error_text_no_data">No data available</string>
 
     <plurals name="maximumNumberOfSensors">
         <item quantity="one">Please select a maximum of %1$d sensor</item>

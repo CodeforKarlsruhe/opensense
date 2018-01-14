@@ -73,11 +73,12 @@ class PlotWidget : BaseWidget() {
         }
 
         private fun showErrorScreen(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager,
-                                    views: RemoteViews) {
+                                    views: RemoteViews, errorId: Int = R.string.loading_error_text_generic) {
             views.apply {
                 // Show refresh button, hide progress bar
                 setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                 setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
+                setTextViewText(R.id.plot_widget_error_text, context.getString(errorId))
                 // Remove values
                 setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
                 setViewVisibility(R.id.plot_widget_img, View.GONE)
@@ -90,6 +91,11 @@ class PlotWidget : BaseWidget() {
                              sensor: Sensor, sensorHist: List<SensorHistory>) {
             val views = RemoteViews(context.packageName, R.layout.plot_widget)
 
+            if (sensorHist.isEmpty()) {
+                showErrorScreen(context, appWidgetId, appWidgetManager, views, R.string.loading_error_text_no_data)
+                return
+            }
+
             val dates = mutableListOf<DateTime>()
             val values = mutableListOf<Double>()
 
@@ -101,7 +107,7 @@ class PlotWidget : BaseWidget() {
             }
 
             if (dates.isEmpty() || values.isEmpty()) {
-                showErrorScreen(context, appWidgetId, appWidgetManager, views)
+                showErrorScreen(context, appWidgetId, appWidgetManager, views, R.string.loading_error_text_no_data)
                 return
             }
 
