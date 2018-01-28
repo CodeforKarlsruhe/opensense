@@ -1,11 +1,12 @@
 package de.codefor.karlsruhe.opensense.data.boxes.model
 
 import com.squareup.moshi.Json
+import org.joda.time.DateTime
 
 data class SenseBox(
         @field:Json(name = "_id") val id: String?,
-        val createdAt: String?,
-        val updatedAt: String?,
+        val createdAt: DateTime?,
+        val updatedAt: DateTime?,
         val name: String?,
         val boxType: String?,
         val model: String?,

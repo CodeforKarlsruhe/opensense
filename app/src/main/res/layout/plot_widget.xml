@@ -6,8 +6,9 @@
     android:padding="@dimen/widget_margin"
     tools:width="40dp">
 
+
     <ImageView
-        android:id="@+id/one_value_widget_configuration_button"
+        android:id="@+id/plot_widget_configuration_button"
         android:layout_width="@dimen/widget_button_size"
         android:layout_height="@dimen/widget_button_size"
         android:layout_alignParentStart="true"
@@ -16,13 +17,13 @@
         android:src="@drawable/widget_configuration" />
 
     <TextView
-        android:id="@+id/one_value_widget_box_name"
+        android:id="@+id/plot_widget_box_name"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/widget_button_size"
         android:layout_marginEnd="@dimen/widget_margin"
         android:layout_marginStart="@dimen/widget_margin"
-        android:layout_toEndOf="@id/one_value_widget_configuration_button"
-        android:layout_toStartOf="@id/one_value_widget_refresh_button"
+        android:layout_toEndOf="@id/plot_widget_configuration_button"
+        android:layout_toStartOf="@id/plot_widget_refresh_button"
         android:ellipsize="end"
         android:singleLine="true"
         android:textAlignment="center"
@@ -31,7 +32,7 @@
         tools:text="OK Lab Karlsruhe 1" />
 
     <ProgressBar
-        android:id="@+id/one_value_widget_progress_bar"
+        android:id="@+id/plot_widget_progress_bar"
         android:layout_width="@dimen/widget_button_size"
         android:layout_height="@dimen/widget_button_size"
         android:layout_alignParentEnd="true"
@@ -39,30 +40,42 @@
         android:visibility="gone" />
 
     <ImageView
-        android:id="@+id/one_value_widget_refresh_button"
+        android:id="@+id/plot_widget_refresh_button"
         android:layout_width="@dimen/widget_button_size"
         android:layout_height="@dimen/widget_button_size"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/refresh_image_description"
         android:src="@drawable/widget_refresh" />
-
-    <TextView
-        android:id="@+id/one_value_widget_sensor_data"
+    
+    <ImageView
+        android:id="@+id/plot_widget_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/plot_widget_configuration_button"
+        android:layout_centerInParent="true"
+        android:paddingBottom="16dp"
+        android:contentDescription="@string/plot_image_description"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/plot_widget_error_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/plot_widget_configuration_button"
         android:layout_centerInParent="true"
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
+        android:text="@string/loading_error_text_generic"
         android:textAlignment="center"
         android:textColor="@color/colorWidgetText"
         android:textSize="@dimen/widget_text_size_normal"
         android:textStyle="bold"
-        tools:text="1234.56 μW/cm²" />
+        tools:text="" />
 
     <TextView
-        android:id="@+id/one_value_widget_sensor_title"
+        android:id="@+id/plot_widget_sensor_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -72,5 +85,6 @@
         android:singleLine="true"
         android:textColor="@color/colorWidgetText"
         android:textSize="@dimen/widget_text_size_small"
-        tools:text="UV-Intensität" />
+        tools:text="Sensorname" />
+
 </RelativeLayout>

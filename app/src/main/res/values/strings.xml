@@ -1,28 +1,27 @@
 <resources>
-    <string name="app_name">Open Sense</string>
+    <string name="app_name" translatable="false">Open Sense</string>
 
 
     <!-- Widget configuration -->
-    <string name="widget_configuration_title">Select senseBox</string>
-    <string name="widget_configuration_box_id">senseBox Id</string>
-    <string name="widget_configuration_select">Select</string>
     <string name="widget_configuration_current_value">%1$s %2$s</string>
     <string name="widget_configuration_save">Save</string>
     <string name="widget_configuration_snackbar_empty_list">Please select at least one sensor</string>
     <string name="widget_configuration_snackbar_error_loading">Error fetching the senseBox data</string>
     <string name="widget_configuration_snackbar_error_invalid_data">Invalid senseBox data</string>
 
-    <string name="empty_response">Empty server response</string>
-
+    <!-- Loading errors -->
+    <string name="loading_error_text_generic">An error occurred</string>
+    <string name="loading_error_text_no_data">No data available</string>
 
     <plurals name="maximumNumberOfSensors">
         <item quantity="one">Please select a maximum of %1$d sensor</item>
         <item quantity="other">Please select a maximum of %1$d sensors</item>
     </plurals>
 
-    <!-- One Value Widget -->
-    <string name="one_value_refresh_image_description">Refresh</string>
-    <string name="one_value_configuration_image_description">Configuration</string>
-    <string name="one_value_error_text">Error</string>
+    <string name="refresh_image_description">Refresh</string>
+    <string name="configuration_image_description">Configuration</string>
 
+    <!-- Plot Widget -->
+    <string name="plot_image_description">Sensor history plot</string>
+    <string name="plot_graph_time">Time</string>
 </resources>

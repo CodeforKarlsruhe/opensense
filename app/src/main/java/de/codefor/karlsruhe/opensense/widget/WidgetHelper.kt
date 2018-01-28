@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import de.codefor.karlsruhe.opensense.data.OpenSenseMapService
+import de.codefor.karlsruhe.opensense.data.SensorData
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
 import de.codefor.karlsruhe.opensense.widget.base.BaseWidget
@@ -63,6 +64,16 @@ object WidgetHelper {
 
     internal fun getAllBoxes(): Single<List<SenseBox>> {
         return OpenSenseMapService.getAllBoxes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    internal fun getSenseBoxAndSensorData(context: Context, appWidgetId: Int): Single<Pair<SenseBox, SensorData>> {
+        val boxId = loadBoxId(context, appWidgetId)
+        // We keep it really simple here and just use the first selected sensor of this widget
+        val sensorId = loadSensorIds(context, appWidgetId).firstOrNull() ?: return Single.error(IllegalStateException("No sensor id stored"))
+
+        return OpenSenseMapService.getSenseBoxAndSensorData(boxId, sensorId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }
