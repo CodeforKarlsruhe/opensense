@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Open Sense</string>
-
     <!-- Widget configuration -->
+    <string name="widget_configuration_current_value">%1$s %2$s</string>
     <string name="widget_configuration_save">Speichern</string>
     <string name="widget_configuration_snackbar_empty_list">Bitte mindestens einen Sensor auswählen</string>
     <string name="widget_configuration_snackbar_error_loading">Fehler beim Laden der senseBox-Daten</string>
