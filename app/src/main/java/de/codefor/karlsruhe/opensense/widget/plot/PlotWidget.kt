@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
@@ -36,9 +37,8 @@ class PlotWidget : BaseWidget() {
     }
 
     companion object {
-        private val dateTimeFormatterStart = DateTimeFormat.forPattern("dd.MM.yy")
-        private val dateTimeFormatter = DateTimeFormat.forPattern("dd.MM.yy HH:mm")
-        private val dateTimeFormatterEnd = DateTimeFormat.forPattern("dd.MM.")
+        private val dateTimeFormatterStartEnd = DateTimeFormat.forPattern("dd.MM.")
+        private val dateTimeFormatter = DateTimeFormat.forPattern("dd.MM. HH:mm")
 
 
         fun update(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
@@ -62,6 +62,7 @@ class PlotWidget : BaseWidget() {
                         setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                         setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
                         setTextViewText(R.id.plot_widget_box_name, senseBox.name)
+                        setViewVisibility(R.id.plot_widget_sensor_title, View.VISIBLE)
                         setTextViewText(R.id.plot_widget_sensor_title, sensor.title)
                     }
                     appWidgetManager.partiallyUpdateAppWidget(appWidgetId, views)
@@ -79,9 +80,10 @@ class PlotWidget : BaseWidget() {
                 setViewVisibility(R.id.plot_widget_refresh_button, View.VISIBLE)
                 setViewVisibility(R.id.plot_widget_progress_bar, View.GONE)
                 setTextViewText(R.id.plot_widget_error_text, context.getString(errorId))
-                // Remove values
                 setViewVisibility(R.id.plot_widget_error_text, View.VISIBLE)
+                // Hide widget image and sensor title
                 setViewVisibility(R.id.plot_widget_img, View.GONE)
+                setViewVisibility(R.id.plot_widget_sensor_title, View.GONE)
             }
             setOnClickPendingIntents(context, appWidgetId, views)
             appWidgetManager.updateAppWidget(appWidgetId, views)
@@ -121,28 +123,29 @@ class PlotWidget : BaseWidget() {
             }
 
 
-            val textSize = PixelUtils.spToPix(7f)
+            val textSize = context.resources.getDimension(R.dimen.widget_text_size_small)
 
             // Configure the graph
             plot.graph.apply {
                 // show the tick labels
-                setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM)
+                setLineLabelEdges(XYGraphWidget.Edge.RIGHT, XYGraphWidget.Edge.BOTTOM)
 
                 // add space for the labels
                 size = Size.FILL
-                marginLeft = PixelUtils.dpToPix(32f)
+                marginLeft = PixelUtils.dpToPix(8f)
                 marginTop = PixelUtils.dpToPix(8f)
-                marginRight = PixelUtils.dpToPix(12f)
+                marginRight = PixelUtils.dpToPix(40f)
                 marginBottom = PixelUtils.dpToPix(24f)
 
-                lineLabelInsets.left = PixelUtils.dpToPix(-15f)
-                lineLabelInsets.bottom = PixelUtils.dpToPix(-8f)
+                lineLabelInsets.right = PixelUtils.dpToPix(-15f)
+                lineLabelInsets.bottom = PixelUtils.dpToPix(-10f)
 
                 // format the labels
-                getLineLabelStyle(XYGraphWidget.Edge.LEFT).paint.color = Color.WHITE
-                getLineLabelStyle(XYGraphWidget.Edge.LEFT).paint.textSize = textSize
+                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.color = Color.WHITE
+                getLineLabelStyle(XYGraphWidget.Edge.RIGHT).paint.textSize = textSize
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.color = Color.WHITE
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textSize = textSize
+                getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).paint.textAlign = Paint.Align.LEFT
 
                 // format the DateTime
                 getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).format = object : Format() {
@@ -153,8 +156,7 @@ class PlotWidget : BaseWidget() {
                         val date = dates[index]
 
                         return when (index) {
-                            0 -> toAppendTo.append(date.toString(dateTimeFormatterStart))
-                            dates.lastIndex -> toAppendTo.append(date.toString(dateTimeFormatterEnd))
+                            0, dates.lastIndex -> toAppendTo.append(date.toString(dateTimeFormatterStartEnd))
                             else -> toAppendTo.append(date.toString(dateTimeFormatter))
                         }
                     }
@@ -168,12 +170,12 @@ class PlotWidget : BaseWidget() {
             // Format the title (time and unit)
             plot.rangeTitle.labelPaint.textSize = textSize
             plot.rangeTitle.position(
-                    25f, HorizontalPositioning.ABSOLUTE_FROM_LEFT,
-                    30f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
+                    25f, HorizontalPositioning.ABSOLUTE_FROM_RIGHT,
+                    0f, VerticalPositioning.ABSOLUTE_FROM_CENTER)
             plot.domainTitle.labelPaint.textSize = textSize
             plot.domainTitle.position(
                     0f, HorizontalPositioning.ABSOLUTE_FROM_CENTER,
-                    25f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
+                    20f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
             plot.legend.isVisible = false
 
             val widgetWidth = appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
