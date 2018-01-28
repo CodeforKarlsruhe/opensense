@@ -37,9 +37,8 @@ class PlotWidget : BaseWidget() {
     }
 
     companion object {
-        private val dateTimeFormatterStart = DateTimeFormat.forPattern("dd.MM.yy")
-        private val dateTimeFormatter = DateTimeFormat.forPattern("dd.MM.yy HH:mm")
-        private val dateTimeFormatterEnd = DateTimeFormat.forPattern("dd.MM.")
+        private val dateTimeFormatterStartEnd = DateTimeFormat.forPattern("dd.MM.")
+        private val dateTimeFormatter = DateTimeFormat.forPattern("dd.MM. HH:mm")
 
 
         fun update(context: Context, appWidgetId: Int, appWidgetManager: AppWidgetManager) {
@@ -135,7 +134,7 @@ class PlotWidget : BaseWidget() {
                 size = Size.FILL
                 marginLeft = PixelUtils.dpToPix(8f)
                 marginTop = PixelUtils.dpToPix(8f)
-                marginRight = PixelUtils.dpToPix(32f)
+                marginRight = PixelUtils.dpToPix(40f)
                 marginBottom = PixelUtils.dpToPix(24f)
 
                 lineLabelInsets.right = PixelUtils.dpToPix(-15f)
@@ -157,8 +156,7 @@ class PlotWidget : BaseWidget() {
                         val date = dates[index]
 
                         return when (index) {
-                            0 -> toAppendTo.append(date.toString(dateTimeFormatterStart))
-                            dates.lastIndex -> toAppendTo.append(date.toString(dateTimeFormatterEnd))
+                            0, dates.lastIndex -> toAppendTo.append(date.toString(dateTimeFormatterStartEnd))
                             else -> toAppendTo.append(date.toString(dateTimeFormatter))
                         }
                     }
@@ -173,7 +171,7 @@ class PlotWidget : BaseWidget() {
             plot.rangeTitle.labelPaint.textSize = textSize
             plot.rangeTitle.position(
                     25f, HorizontalPositioning.ABSOLUTE_FROM_RIGHT,
-                    30f, VerticalPositioning.ABSOLUTE_FROM_BOTTOM)
+                    0f, VerticalPositioning.ABSOLUTE_FROM_CENTER)
             plot.domainTitle.labelPaint.textSize = textSize
             plot.domainTitle.position(
                     0f, HorizontalPositioning.ABSOLUTE_FROM_CENTER,
