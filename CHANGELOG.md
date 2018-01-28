@@ -1,6 +1,12 @@
 # Changelog
 An app with widgets for the great [openSenseMap](https://opensensemap.org) project.
 
+## 0.3.0 (2018-01-29)
+Expand the features
+
+#### Added
+- The `Plot Widget`, which shows a plot of one sensor value
+
 
 ## 0.2.0 (2017-10-08)
 Improve widget design and configuration
