@@ -9,12 +9,12 @@ plugins {
 val mapboxApiToken: String by project
 
 android {
-    compileSdkVersion(28)
-    buildToolsVersion("28.0.3")
+    compileSdkVersion(BuildConfig.compileSdkVersion)
+    buildToolsVersion(BuildConfig.buildToolsVersion)
     defaultConfig {
         applicationId = "de.codefor.karlsruhe.opensense"
-        minSdkVersion(19)
-        targetSdkVersion(28)
+        minSdkVersion(BuildConfig.minSdkVersion)
+        targetSdkVersion(BuildConfig.targetSdkVersion)
         versionCode = 3
         versionName = "0.3.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
@@ -32,27 +32,27 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${BuildConfig.kotlinVersion}")
 
-    implementation("com.android.support:appcompat-v7:28.0.0")
-    implementation("com.android.support:design:28.0.0")
-    implementation("com.android.support:recyclerview-v7:28.0.0")
+    implementation("com.android.support:appcompat-v7:${BuildConfig.supportLibVersion}")
+    implementation("com.android.support:design:${BuildConfig.supportLibVersion}")
+    implementation("com.android.support:recyclerview-v7:${BuildConfig.supportLibVersion}")
 
-    implementation("net.danlew:android.joda:2.10.1.1")
+    implementation("net.danlew:android.joda:${BuildConfig.jodaVersion}")
 
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.7")
+    implementation("io.reactivex.rxjava2:rxandroid:${BuildConfig.rxAndroidVersion}")
+    implementation("io.reactivex.rxjava2:rxjava:${BuildConfig.rxJavaVersion}")
 
-    implementation("com.squareup.retrofit2:retrofit:2.5.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.5.0")
+    implementation("com.squareup.retrofit2:retrofit:${BuildConfig.retrofitVersion}")
+    implementation("com.squareup.retrofit2:converter-moshi:${BuildConfig.retrofitVersion}")
     implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.5.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:${BuildConfig.retrofitVersion}")
 
-    implementation("com.mapbox.mapboxsdk:mapbox-android-sdk:7.2.0")
+    implementation("com.mapbox.mapboxsdk:mapbox-android-sdk:${BuildConfig.mapboxVersion}")
 
-    implementation("com.androidplot:androidplot-core:1.5.6")
+    implementation("com.androidplot:androidplot-core:${BuildConfig.androidPlotVersion}")
 
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:${BuildConfig.junitVersion}")
 
-    androidTestImplementation("com.android.support.test.espresso:espresso-core:3.0.1") {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:${BuildConfig.espressoVersion}") {
         exclude(group = "com.android.support", module = "support-annotations")
     }
 }
