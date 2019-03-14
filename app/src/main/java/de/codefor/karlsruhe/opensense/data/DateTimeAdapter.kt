@@ -19,7 +19,7 @@ class DateTimeAdapter : JsonAdapter<DateTime>() {
 
     @Synchronized
     @Throws(IOException::class)
-    override fun toJson(writer: JsonWriter, value: DateTime) {
+    override fun toJson(writer: JsonWriter, value: DateTime?) {
         writer.value(fmt.print(value))
     }
 }

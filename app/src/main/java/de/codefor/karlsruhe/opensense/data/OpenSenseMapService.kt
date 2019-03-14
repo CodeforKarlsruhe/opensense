@@ -1,6 +1,7 @@
 package de.codefor.karlsruhe.opensense.data
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import de.codefor.karlsruhe.opensense.data.boxes.BoxesApi
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.data.boxes.model.Sensor
@@ -18,7 +19,9 @@ object OpenSenseMapService {
     private val boxesApi: BoxesApi
 
     init {
-        val moshi = Moshi.Builder().add(DateTime::class.java, DateTimeAdapter()).build()
+        val moshi = Moshi.Builder()
+                .add(KotlinJsonAdapterFactory())
+                .add(DateTime::class.java, DateTimeAdapter()).build()
 
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.opensensemap.org/")
