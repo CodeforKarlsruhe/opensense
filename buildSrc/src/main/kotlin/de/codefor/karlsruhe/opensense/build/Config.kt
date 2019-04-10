@@ -11,6 +11,7 @@ object BuildConfig {
     val kotlinVersion = "1.3.21"
 
     val supportLibVersion = "28.0.0"
+    val supportLibMultiDexVersion = "1.0.3"
     val jodaVersion = "2.10.1.1"
     val rxAndroidVersion = "2.1.1"
     val rxJavaVersion = "2.2.7"

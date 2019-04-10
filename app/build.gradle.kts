@@ -17,6 +17,8 @@ android {
         targetSdkVersion(BuildConfig.targetSdkVersion)
         versionCode = BuildConfig.versionCode
         versionName = BuildConfig.versionName
+
+        multiDexEnabled = true
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "MAPBOX_API_TOKEN", mapboxApiToken)
@@ -32,6 +34,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${BuildConfig.kotlinVersion}")
 
+    implementation("com.android.support:multidex:${BuildConfig.supportLibMultiDexVersion}")
     implementation("com.android.support:appcompat-v7:${BuildConfig.supportLibVersion}")
     implementation("com.android.support:design:${BuildConfig.supportLibVersion}")
     implementation("com.android.support:recyclerview-v7:${BuildConfig.supportLibVersion}")
