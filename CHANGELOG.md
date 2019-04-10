@@ -1,6 +1,9 @@
 # Changelog
 An app with widgets for the great [openSenseMap](https://opensensemap.org) project.
 
+## 0.4.0 (2019-04-10)
+Update build script, API calls and migrate to Gradle Kotlin DSL
+
 ## 0.3.0 (2018-01-29)
 Expand the features
 
