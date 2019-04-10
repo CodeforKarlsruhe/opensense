@@ -1,10 +1,10 @@
 package de.codefor.karlsruhe.opensense
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import com.mapbox.mapboxsdk.Mapbox
 import net.danlew.android.joda.JodaTimeAndroid
 
-class OpenSenseApplication: Application() {
+class OpenSenseApplication: MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
