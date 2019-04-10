@@ -15,8 +15,8 @@ android {
         applicationId = "de.codefor.karlsruhe.opensense"
         minSdkVersion(BuildConfig.minSdkVersion)
         targetSdkVersion(BuildConfig.targetSdkVersion)
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = BuildConfig.versionCode
+        versionName = BuildConfig.versionName
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "MAPBOX_API_TOKEN", mapboxApiToken)

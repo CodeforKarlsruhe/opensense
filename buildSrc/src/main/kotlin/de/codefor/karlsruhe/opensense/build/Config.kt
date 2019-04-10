@@ -4,6 +4,8 @@ object BuildConfig {
     val minSdkVersion = 19
     val targetSdkVersion = 28
     val compileSdkVersion = targetSdkVersion
+    val versionCode = 4
+    val versionName = "0.4.0"
 
     val buildToolsVersion = "28.0.3"
     val kotlinVersion = "1.3.21"
