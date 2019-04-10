@@ -1,6 +1,10 @@
 # Changelog
 An app with widgets for the great [openSenseMap](https://opensensemap.org) project.
 
+## 0.4.1 (2019-04-10)
+#### Fixed
+- Update mapbox dependency to fix a crash with the map view
+
 ## 0.4.0 (2019-04-10)
 Update build script, API calls and migrate to Gradle Kotlin DSL
 
