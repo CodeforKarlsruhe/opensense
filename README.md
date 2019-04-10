@@ -2,7 +2,7 @@
 An app with widgets for the great [openSenseMap](https://opensensemap.org) project.
 It's still work in progress and in an early stage of development.
 
-The current version `0.3.0` is available in the [Play Store](https://play.google.com/store/apps/details?id=de.codefor.karlsruhe.opensense).
+The current version `0.4.0` is available in the [Play Store](https://play.google.com/store/apps/details?id=de.codefor.karlsruhe.opensense).
 
 
 ## Features

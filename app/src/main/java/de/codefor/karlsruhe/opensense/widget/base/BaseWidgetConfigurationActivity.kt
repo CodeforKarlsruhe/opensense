@@ -14,6 +14,7 @@ import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
+import com.mapbox.mapboxsdk.maps.Style
 import de.codefor.karlsruhe.opensense.R
 import de.codefor.karlsruhe.opensense.data.boxes.model.SenseBox
 import de.codefor.karlsruhe.opensense.widget.WidgetHelper
@@ -50,23 +51,20 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
         default_widget_configure_mapView.onCreate(icicle)
         default_widget_configure_mapView.getMapAsync { mapboxMap ->
-            run {
-                // get all boxes from api and display them on the map
-                WidgetHelper.getAllBoxes().subscribe({ boxes -> displayBoxesOnMap(mapboxMap, boxes) })
+            mapboxMap.setStyle(Style.LIGHT) {
+                WidgetHelper.getAllBoxes().subscribe { boxes -> displayBoxesOnMap(mapboxMap, boxes) }
 
                 // handle marker clicks
-                mapboxMap.setOnMarkerClickListener({ marker ->
+                mapboxMap.setOnMarkerClickListener { marker ->
                     run {
                         WidgetHelper.getSenseBox(marker.snippet)
                                 .subscribe(this::showBoxInformation) {
                                     Snackbar.make(coordinator_layout, R.string.widget_configuration_snackbar_error_loading, Snackbar.LENGTH_SHORT)
                                             .show()
                                 }
-
                         return@setOnMarkerClickListener true
                     }
-                })
-
+                }
             }
         }
     }
@@ -93,7 +91,7 @@ abstract class BaseWidgetConfigurationActivity : AppCompatActivity() {
 
         val currentBoxId = WidgetHelper.loadBoxId(this@BaseWidgetConfigurationActivity, widgetId)
         for (box in boxes) {
-            val coordinates = box.loc?.get(0)?.geometry?.coordinates ?: continue
+            val coordinates = box.currentLocation?.coordinates ?: continue
             val markerPosition = LatLng(coordinates[1], coordinates[0])
             mapboxMap.addMarker(MarkerOptions()
                     .position(markerPosition)
