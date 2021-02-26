@@ -31,8 +31,6 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${BuildConfig.kotlinVersion}")
-
     implementation("com.android.support:multidex:${BuildConfig.supportLibMultiDexVersion}")
     implementation("com.android.support:appcompat-v7:${BuildConfig.supportLibVersion}")
     implementation("com.android.support:design:${BuildConfig.supportLibVersion}")

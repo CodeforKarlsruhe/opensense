@@ -41,12 +41,12 @@ object WidgetHelper {
 
     internal fun loadBoxId(context: Context, appWidgetId: Int): String {
         val prefs = context.getSharedPreferences(PREFS_NAME, 0)
-        return prefs.getString(PREF_BOX_ID + appWidgetId, "")
+        return prefs.getString(PREF_BOX_ID + appWidgetId, "")!!
     }
 
     internal fun loadSensorIds(context: Context, appWidgetId: Int): List<String> {
         val prefs = context.getSharedPreferences(PREFS_NAME, 0)
-        return prefs.getStringSet(PREF_SENSOR_IDS + appWidgetId, emptySet()).toList()
+        return prefs.getStringSet(PREF_SENSOR_IDS + appWidgetId, emptySet())!!.toList()
     }
 
     internal fun getSenseBox(context: Context, appWidgetId: Int): Single<SenseBox> {
