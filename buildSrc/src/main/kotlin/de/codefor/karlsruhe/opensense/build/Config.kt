@@ -13,7 +13,7 @@ object BuildConfig {
     val supportLibMultiDexVersion = "1.0.3"
     val jodaVersion = "2.10.1.1"
     val rxAndroidVersion = "2.1.1"
-    val rxJavaVersion = "2.2.7"
+    val rxJavaVersion = "2.2.21"
     val retrofitVersion = "2.6.4"
     val moshiVersion = "1.11.0"
     val mapboxVersion = "7.3.0"
