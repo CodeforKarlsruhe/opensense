@@ -23,6 +23,9 @@ android {
         buildConfigField("String", "MAPBOX_API_TOKEN", mapboxApiToken)
     }
     buildTypes {
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+        }
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
