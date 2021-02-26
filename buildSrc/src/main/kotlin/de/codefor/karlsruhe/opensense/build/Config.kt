@@ -18,5 +18,5 @@ object BuildConfig {
     val mapboxVersion = "7.3.0"
     val androidPlotVersion = "1.5.7"
     val junitVersion = "4.13.2"
-    val espressoVersion = "3.0.1"
+    val espressoVersion = "3.0.2"
 }
