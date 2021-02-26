@@ -7,7 +7,6 @@ object BuildConfig {
     val versionCode = 5
     val versionName = "0.4.1"
 
-    val buildToolsVersion = "28.0.3"
     val kotlinVersion = "1.3.21"
 
     val supportLibVersion = "28.0.0"

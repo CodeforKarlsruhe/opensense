@@ -10,7 +10,6 @@ val mapboxApiToken: String by project
 
 android {
     compileSdkVersion(BuildConfig.compileSdkVersion)
-    buildToolsVersion(BuildConfig.buildToolsVersion)
     defaultConfig {
         applicationId = "de.codefor.karlsruhe.opensense"
         minSdkVersion(BuildConfig.minSdkVersion)

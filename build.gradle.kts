@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:3.3.2")
+        classpath("com.android.tools.build:gradle:4.1.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${de.codefor.karlsruhe.opensense.build.BuildConfig.kotlinVersion}")
 
         // NOTE: Do not place your application dependencies here; they belong
