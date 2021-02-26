@@ -15,6 +15,7 @@ object BuildConfig {
     val rxAndroidVersion = "2.1.1"
     val rxJavaVersion = "2.2.7"
     val retrofitVersion = "2.6.4"
+    val moshiVersion = "1.11.0"
     val mapboxVersion = "7.3.0"
     val androidPlotVersion = "1.5.7"
     val junitVersion = "4.13.2"

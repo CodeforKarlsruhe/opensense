@@ -43,7 +43,7 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:${BuildConfig.retrofitVersion}")
     implementation("com.squareup.retrofit2:converter-moshi:${BuildConfig.retrofitVersion}")
-    implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
+    implementation("com.squareup.moshi:moshi-kotlin:${BuildConfig.moshiVersion}")
     implementation("com.squareup.retrofit2:adapter-rxjava2:${BuildConfig.retrofitVersion}")
 
     implementation("com.mapbox.mapboxsdk:mapbox-android-sdk:${BuildConfig.mapboxVersion}")
