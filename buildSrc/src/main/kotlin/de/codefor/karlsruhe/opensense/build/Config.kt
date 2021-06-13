@@ -7,17 +7,17 @@ object BuildConfig {
     val versionCode = 5
     val versionName = "0.4.1"
 
-    val buildToolsVersion = "28.0.3"
-    val kotlinVersion = "1.3.21"
+    val kotlinVersion = "1.4.31"
 
     val supportLibVersion = "28.0.0"
     val supportLibMultiDexVersion = "1.0.3"
     val jodaVersion = "2.10.1.1"
     val rxAndroidVersion = "2.1.1"
-    val rxJavaVersion = "2.2.7"
-    val retrofitVersion = "2.5.0"
+    val rxJavaVersion = "2.2.21"
+    val retrofitVersion = "2.6.4"
+    val moshiVersion = "1.11.0"
     val mapboxVersion = "7.3.0"
-    val androidPlotVersion = "1.5.6"
-    val junitVersion = "4.12"
-    val espressoVersion = "3.0.1"
+    val androidPlotVersion = "1.5.7"
+    val junitVersion = "4.13.2"
+    val espressoVersion = "3.0.2"
 }
