@@ -1,6 +1,12 @@
 # Changelog
 An app with widgets for the great [openSenseMap](https://opensensemap.org) project.
 
+## 0.6.0 (2011-06-13)
+Thanks to [Tobias Preuss](https://github.com/johnjohndoe) for contributing the below changes.
+- Update of several dependencies
+- Build: Use gradle-versions-plugin to detect version updates
+- Build: Debug build variant with different package name to enable parallel install
+
 ## 0.4.1 (2019-04-10)
 #### Fixed
 - Update mapbox dependency to fix a crash with the map view

@@ -2,10 +2,10 @@ package de.codefor.karlsruhe.opensense.build
 
 object BuildConfig {
     val minSdkVersion = 19
-    val targetSdkVersion = 28
+    val targetSdkVersion = 30
     val compileSdkVersion = targetSdkVersion
-    val versionCode = 5
-    val versionName = "0.4.1"
+    val versionCode = 6
+    val versionName = "0.6.0"
 
     val kotlinVersion = "1.4.31"
 
